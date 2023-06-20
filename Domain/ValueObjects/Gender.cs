@@ -1,6 +1,6 @@
 ﻿namespace Domain.ValueObjects;
 
-public class Gender : ValueObject
+public sealed class Gender : ValueObject
 {
     static Gender(){}
     

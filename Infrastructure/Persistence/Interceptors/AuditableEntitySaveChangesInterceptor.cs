@@ -37,10 +37,11 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 
         foreach (var entry in context.ChangeTracker.Entries<BaseAuditableEntity>())
         {
-            if (entry.State == EntityState.Added)
+            if (entry.State is EntityState.Added)
             {
                 entry.Entity.CreatedBy = _currentUserService.UserId;
                 entry.Entity.Created = _dateTime.Now;
+                entry.Entity.UniqueId = Guid.NewGuid();
             }
 
             if (entry.State is EntityState.Added or EntityState.Modified || entry.HasChangedOwnedEntities())

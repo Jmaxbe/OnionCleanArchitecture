@@ -8,7 +8,6 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 {
     public void Configure(EntityTypeBuilder<Employee> builder)
     {
-        builder.HasKey(k=>k.Id);
         builder.Property(f => f.FirstName)
             .HasMaxLength(256)
             .IsRequired();
@@ -17,5 +16,9 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
             .IsRequired();
         builder.Property(f => f.MiddleName)
             .HasMaxLength(256);
+        builder.Property(b => b.BirthDate)
+            .IsRequired();
+        builder.Property(b => b.HireDate)
+            .IsRequired();
     }
 }
