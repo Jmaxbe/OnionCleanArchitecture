@@ -29,9 +29,16 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
     
     public async Task<CreateEmployeeDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
     {
-        var employee = new Employee(request.FirstName, request.LastName, request.IsMale, request.HireDate,
-            request.BirthDate);
-        employee.MiddleName = request.MiddleName;
+        var employee = new Employee
+        {
+           
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            MiddleName = request.MiddleName,
+            IsMale = request.IsMale,
+            HireDate = request.HireDate,
+            BirthDate = request.BirthDate,
+        };
 
         _context.Employee.Add(employee);
 

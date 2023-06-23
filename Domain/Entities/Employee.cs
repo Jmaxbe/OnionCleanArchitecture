@@ -4,13 +4,8 @@ namespace Domain.Entities;
 
 public class Employee : BaseAuditableEntity
 {
-    public Employee(string firstName, string lastName, bool isMale, DateTime hireDate, DateTime birthDate)
+    public Employee()
     {
-        FirstName = firstName;
-        LastName = lastName;
-        IsMale = isMale;
-        HireDate = hireDate;
-        BirthDate = birthDate;
         Salaries = new HashSet<Salary>();
         FlowOfWorks = new HashSet<FlowOfWorks>();
     }

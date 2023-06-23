@@ -1,18 +1,13 @@
 ﻿namespace Domain.Entities;
 
-public class Address
+public class Address : BaseAuditableEntity
 {
-    public Address(string country, string city, string street)
-    {
-        Country = country;
-        City = city;
-        Street = street;
-    }
-    
-    public string Country { get; init; }
-    public string City { get; init; }
+    public Guid OrganizationId { get; set; }
+    public Organization Organization { get; set; }
+    public string Country { get; set; }
+    public string City { get; set; }
     public string? State { get; set; }
-    public string Street { get; init; }
+    public string Street { get; set; }
     public string? Building { get; set; }
     public int? PostalCode { get; set; }
 }
