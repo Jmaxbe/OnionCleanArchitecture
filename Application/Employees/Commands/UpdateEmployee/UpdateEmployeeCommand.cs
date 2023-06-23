@@ -38,9 +38,9 @@ public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeComman
             throw new NotFoundException(nameof(Employee), request.Id);
         }
 
-        employee.FirstName = request.FirstName;
-        employee.LastName = request.LastName;
-        employee.MiddleName = request.MiddleName;
+        employee.FirstName = request.FirstName.Trim();
+        employee.LastName = request.LastName.Trim();
+        employee.MiddleName = request.MiddleName?.Trim();
         employee.BirthDate = request.BirthDate;
         employee.HireDate = request.HireDate;
         employee.IsMale = request.IsMale;

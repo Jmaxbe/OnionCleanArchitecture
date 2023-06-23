@@ -11,7 +11,7 @@ public record CreateEmployeeCommand : IRequest<CreateEmployeeDto>
     [Required] public string FirstName { get; init; }
     [Required] public string LastName { get; init; }
     public string? MiddleName { get; init; }
-    [Required] public bool IsMale { get; set; }
+    [Required] public bool IsMale { get; init; }
     [Required] public DateTime HireDate { get; init; }
     [Required] public DateTime BirthDate { get; init; }
 }
@@ -32,9 +32,9 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
         var employee = new Employee
         {
            
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            MiddleName = request.MiddleName,
+            FirstName = request.FirstName.Trim(),
+            LastName = request.LastName.Trim(),
+            MiddleName = request.MiddleName?.Trim(),
             IsMale = request.IsMale,
             HireDate = request.HireDate,
             BirthDate = request.BirthDate,

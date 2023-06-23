@@ -6,7 +6,19 @@ public class UpdateEmployeeCommandValidator : AbstractValidator<UpdateEmployeeCo
 {
     public UpdateEmployeeCommandValidator()
     {
-        RuleFor(v => v.IsMale)
+        RuleFor(v => v.Id).NotEmpty();
+        RuleFor(v => v.IsMale).NotEmpty();
+        RuleFor(v => v.FirstName)
+            .Length(2, 256)
+            .NotEmpty();
+        RuleFor(v => v.LastName)
+            .Length(2, 256)
+            .NotEmpty();
+        RuleFor(v => v.MiddleName)
+            .Length(2, 256);
+        RuleFor(v => v.HireDate).NotEmpty();
+        RuleFor(v => v.BirthDate)
+            .LessThan(DateTime.Now)
             .NotEmpty();
     }
 }
