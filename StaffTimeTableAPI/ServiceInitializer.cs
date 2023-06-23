@@ -39,6 +39,7 @@ public static class ServiceInitializer
                 Title = "Staff Time-Table",
                 Description = "Demo API - Clean Architecture Solution in .NET 7",
             });
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "StaffTimeTableAPI.xml"));
         });
     }
 }
