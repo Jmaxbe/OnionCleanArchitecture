@@ -20,10 +20,10 @@ public record UpdateEmployeeCommand : IRequest<UpdateEmployeeDto>
 
 public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand, UpdateEmployeeDto>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IUnitOfWork _context;
     private readonly IMapper _mapper;
 
-    public UpdateEmployeeCommandHandler(IApplicationDbContext context, IMapper mapper)
+    public UpdateEmployeeCommandHandler(IUnitOfWork context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
@@ -31,7 +31,7 @@ public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeComman
     
     public async Task<UpdateEmployeeDto> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
     {
-        var employee = await _context.Employee.FindAsync(new object[] { request.Id }, cancellationToken);
+        var employee = await _context.Employees.GetByIdAsync(request.Id, cancellationToken);
 
         if (employee is null)
         {
@@ -45,7 +45,7 @@ public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeComman
         employee.HireDate = request.HireDate;
         employee.IsMale = request.IsMale;
 
-        _context.Employee.Update(employee);
+        _context.Employees.Update(employee);
 
         await _context.SaveChangesAsync(cancellationToken);
         

@@ -18,10 +18,10 @@ public record CreateEmployeeCommand : IRequest<CreateEmployeeDto>
 
 public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, CreateEmployeeDto>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IUnitOfWork _context;
     private readonly IMapper _mapper;
 
-    public CreateEmployeeCommandHandler(IApplicationDbContext context, IMapper mapper)
+    public CreateEmployeeCommandHandler(IUnitOfWork context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
@@ -40,7 +40,7 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
             BirthDate = request.BirthDate,
         };
 
-        _context.Employee.Add(employee);
+        await _context.Employees.AddAsync(employee, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
 

@@ -2,6 +2,7 @@
 using Application.Common.Mappings;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Employees.Queries.GetEmployees;
 
@@ -12,17 +13,17 @@ public record GetEmployeesQuery : IRequest<List<GetEmployeesDto>>
 
 public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, List<GetEmployeesDto>>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly IUnitOfWork _context;
     private readonly IMapper _mapper;
 
-    public GetEmployeesQueryHandler(IApplicationDbContext context, IMapper mapper)
+    public GetEmployeesQueryHandler(IUnitOfWork context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
     
-    public Task<List<GetEmployeesDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
+    public async Task<List<GetEmployeesDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
-        return _context.Employee.ProjectToListAsync<GetEmployeesDto>(_mapper.ConfigurationProvider);
+        return _mapper.Map<List<GetEmployeesDto>>(await _context.Employees.GetAllAsync(cancellationToken));
     }
 }

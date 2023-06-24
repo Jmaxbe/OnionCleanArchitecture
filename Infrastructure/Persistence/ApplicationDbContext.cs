@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using Domain.Entities.Dictionaries;
@@ -9,13 +10,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext
+public class ApplicationDbContext : DbContext
 {
     private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
     private readonly IMediator _mediator;
-
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> optionsBuilderOptions) : base(optionsBuilderOptions)
-    { }
     
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, AuditableEntitySaveChangesInterceptor auditableEntitySaveChangesInterceptor, IMediator mediator)
         : base(options)
