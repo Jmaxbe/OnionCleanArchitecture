@@ -12,5 +12,4 @@ public class CreateEmployeeDto : IMapFrom<Employee>
     public bool IsMale { get; set; }
     public DateTime HireDate { get; set; }
     public DateTime BirthDate { get; set; }
-    public string TestMapper { get; set; }
 }

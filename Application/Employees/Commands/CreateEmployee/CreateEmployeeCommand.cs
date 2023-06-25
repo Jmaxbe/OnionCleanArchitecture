@@ -32,7 +32,6 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
     {
         var employee = new Employee
         {
-           
             FirstName = request.FirstName.Trim(),
             LastName = request.LastName.Trim(),
             MiddleName = request.MiddleName?.Trim(),
@@ -40,8 +39,7 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
             HireDate = request.HireDate,
             BirthDate = request.BirthDate,
         };
-
-        await _context.Employees.AddAsync(employee, cancellationToken);
+        
         await _context.Employees.AddWithDomainEventAsync(employee, new EmployeeCreatedEvent(employee),
             cancellationToken);
 

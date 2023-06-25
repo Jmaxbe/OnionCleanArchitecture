@@ -27,11 +27,9 @@ public static class DependencyInjection
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
         }
-
-        services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         services.AddScoped<ApplicationDbContextInitialiser>();
         
         services.AddTransient<IDateTime, DateTimeService>();
