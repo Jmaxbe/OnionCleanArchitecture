@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Events;
 using MediatR;
 
 namespace Application.Employees.Commands.CreateEmployee;
@@ -41,8 +42,10 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
         };
 
         await _context.Employees.AddAsync(employee, cancellationToken);
+        await _context.Employees.AddWithDomainEventAsync(employee, new EmployeeCreatedEvent(employee),
+            cancellationToken);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.CompleteAsync(cancellationToken);
 
         return _mapper.Map<CreateEmployeeDto>(employee);
     }

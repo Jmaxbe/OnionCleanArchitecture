@@ -47,7 +47,7 @@ public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeComman
 
         _context.Employees.Update(employee);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _context.CompleteAsync(cancellationToken);
         
         return _mapper.Map<UpdateEmployeeDto>(employee);
     }

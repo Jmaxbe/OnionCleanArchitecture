@@ -7,9 +7,9 @@ public interface IUnitOfWork : IDisposable
     IEmployeeRepository Employees { get; }
     
     /// <summary>
-    /// DbContext Class SaveChangesAsync method
+    /// Saves changes async
     /// </summary>
     /// <param name="cancellationToken">A CancellationToken</param>
     /// <returns></returns>
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    Task<int> CompleteAsync(CancellationToken cancellationToken = default);
 }

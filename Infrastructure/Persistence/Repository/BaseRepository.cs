@@ -49,6 +49,13 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
         await _entities.AddAsync(entity, cancellationToken);
     }
 
+    public async Task AddWithDomainEventAsync(T entity, BaseEvent @event, CancellationToken cancellationToken = default)
+    {
+        _entities.Attach(entity);
+        entity.AddDomainEvent(@event);
+        await _entities.AddAsync(entity, cancellationToken);
+    }
+
     public async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     {
         var baseEntities = entities.ToList();
@@ -59,6 +66,13 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     public void Update(T entity)
     {
         _entities.Attach(entity);
+        _entities.Update(entity);
+    }
+    
+    public void UpdateWithDomainEvent(T entity, BaseEvent @event)
+    {
+        _entities.Attach(entity);
+        entity.AddDomainEvent(@event);
         _entities.Update(entity);
     }
 
@@ -72,6 +86,13 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     public void Remove(T entity)
     {
         _entities.Attach(entity);
+        _entities.Remove(entity);
+    }
+    
+    public void RemoveWithDomainEvent(T entity, BaseEvent @event)
+    {
+        _entities.Attach(entity);
+        entity.AddDomainEvent(@event);
         _entities.Remove(entity);
     }
 
