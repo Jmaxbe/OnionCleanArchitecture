@@ -1,5 +1,7 @@
 ﻿using Application.Common.Interfaces;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using StaffTimeTableAPI.Filters;
 using StaffTimeTableAPI.Services;
 
 namespace StaffTimeTableAPI;
@@ -11,8 +13,6 @@ public static class ServiceInitializer
         AddCustomDependencies(services);
         
         services.AddHttpContextAccessor();
-
-        services.AddControllersWithViews();
 
         services.AddControllers();
 
@@ -39,6 +39,16 @@ public static class ServiceInitializer
                 Title = "Staff Time-Table",
                 Description = "Demo API - Clean Architecture Solution in .NET 7",
             });
+            options.AddSecurityDefinition("Token", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.Http,
+                Description = "Please enter a valid token",
+                Name = HeaderNames.Authorization,
+                In = ParameterLocation.Header,
+                Scheme = "Bearer",
+                BearerFormat = "JWT"
+            });
+            options.OperationFilter<SecureEndpointAuthRequirementFilter>();
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "StaffTimeTableAPI.xml"));
         });
     }

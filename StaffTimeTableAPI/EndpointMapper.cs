@@ -8,7 +8,8 @@ public static class EndpointMapper
         app.UseStaticFiles();
 
         app.UseRouting();
-        
+
+        app.UseAuthentication();
         app.UseAuthorization();
         
         app.MapControllers();

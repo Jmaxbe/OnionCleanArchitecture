@@ -14,6 +14,8 @@ public class Employee : BaseAuditableEntity
     public string LastName { get; set; }
     public string? MiddleName { get; set; }
     public bool IsMale { get; set; }
+    public string UserName { get; set; }
+    public string? UserEmail { get; set; }
     public DateTime HireDate { get; set; }
     public DateTime BirthDate { get; set; }
 

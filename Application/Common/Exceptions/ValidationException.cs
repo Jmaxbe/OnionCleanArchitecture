@@ -17,6 +17,12 @@ public class ValidationException : Exception
             .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
             .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
     }
+
+    public ValidationException(IEnumerable<string> errors)
+    : base(string.Join(";", errors))
+    {
+        Errors = new Dictionary<string, string[]>();
+    }
     
     public IDictionary<string, string[]> Errors { get; }
 }

@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Persistence;
+using StaffTimeTableAPI.Middleware.ErrorHandling;
 
 namespace StaffTimeTableAPI;
 
@@ -17,6 +18,8 @@ public static class MiddlewareInitializer
             await initialiser.InitialiseAsync();
             await initialiser.SeedAsync();
         }
+
+        app.UseMiddleware<GlobalErrorHandlingMiddleware>();
         
         return app;
     }

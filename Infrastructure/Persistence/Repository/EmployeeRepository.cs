@@ -6,9 +6,10 @@ namespace Infrastructure.Persistence.Repository;
 
 public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
 {
-    public EmployeeRepository(DbContext context) : base(context)
+    private readonly ApplicationDbContext _context;
+
+    public EmployeeRepository(ApplicationDbContext context) : base(context)
     {
+        _context = context;
     }
-    
-    
 }

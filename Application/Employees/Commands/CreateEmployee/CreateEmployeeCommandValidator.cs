@@ -15,6 +15,14 @@ public class CreateEmployeeCommandValidator : AbstractValidator<CreateEmployeeCo
             .NotEmpty();
         RuleFor(v => v.MiddleName)
             .Length(2, 256);
+        RuleFor(v => v.UserName)
+            .Length(2, 256)
+            .NotEmpty();
+        RuleFor(v => v.UserEmail)
+            .Length(2, 256)
+            .EmailAddress();
+        RuleFor(v => v.UserPassword)
+            .NotEmpty();
         RuleFor(v => v.HireDate).NotEmpty();
         RuleFor(v => v.BirthDate)
             .LessThan(DateTime.Now)

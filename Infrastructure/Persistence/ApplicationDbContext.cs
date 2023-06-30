@@ -4,13 +4,16 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using Domain.Entities.Dictionaries;
 using Infrastructure.Common;
+using Infrastructure.Identity;
 using Infrastructure.Persistence.Interceptors;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
 {
     private readonly AuditableEntitySaveChangesInterceptor _auditableEntitySaveChangesInterceptor;
     private readonly IMediator _mediator;

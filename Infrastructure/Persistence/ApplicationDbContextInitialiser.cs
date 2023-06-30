@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Common.Interfaces;
+using Application.Common.Models;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Persistence;
@@ -7,11 +11,13 @@ public class ApplicationDbContextInitialiser
 {
     private readonly ILogger<ApplicationDbContextInitialiser> _logger;
     private readonly ApplicationDbContext _context;
+    private readonly IIdentityService _identityService;
 
-    public ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitialiser> logger, ApplicationDbContext context)
+    public ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitialiser> logger, ApplicationDbContext context, IIdentityService identityService)
     {
         _logger = logger;
         _context = context;
+        _identityService = identityService;
     }
 
     public async Task InitialiseAsync()
@@ -43,8 +49,38 @@ public class ApplicationDbContextInitialiser
         }
     }
 
-    public async Task TrySeedAsync()
+    private async Task TrySeedAsync()
     {
-        
+        if (!_context.Roles.Any())
+        {
+            _context.Roles.Add(new IdentityRole<int>
+            {
+                Name = RoleConstants.Administrator,
+                NormalizedName = RoleConstants.Administrator.Normalize()
+            });
+            _context.Roles.Add(new IdentityRole<int>
+            {
+                Name = RoleConstants.Moderator,
+                NormalizedName = RoleConstants.Moderator.Normalize()
+            });
+            _context.Roles.Add(new IdentityRole<int>
+            {
+                Name = RoleConstants.Member,
+                NormalizedName = RoleConstants.Member.Normalize()
+            });
+        }
+
+        if (!_context.Users.Any())
+        {
+            await _identityService.CreateUserAsync(new CreateAccountRequestDto
+            {
+                UserName = "Administrator",
+                Email = "administrator@mail.ru",
+                Phone = null,
+                Password = "Qwerty123!"
+            });
+        }
+
+        await _context.SaveChangesAsync();
     }
 }
