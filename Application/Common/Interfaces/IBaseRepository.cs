@@ -11,7 +11,7 @@ public interface IBaseRepository<T> where T : BaseEntity
     /// <param name="id">primary key value</param>
     /// <param name="cancellationToken">A CancellationToken</param>
     /// <returns></returns>
-    Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+    Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default);
     IQueryable<T> Find(Expression<Func<T, bool>> predicate);
     void Add(T entity);

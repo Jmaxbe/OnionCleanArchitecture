@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Keycloak.AuthServices.Authentication;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using StaffTimeTableAPI.Filters;
@@ -8,29 +9,27 @@ namespace StaffTimeTableAPI;
 
 public static class ServiceInitializer
 {
-    public static IServiceCollection AddStaffTimeTableServices(this IServiceCollection services)
+    public static IServiceCollection AddStaffTimeTableServices(this IServiceCollection services,
+        IConfiguration configuration)
     {
-        AddCustomDependencies(services);
-        
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+
         services.AddHttpContextAccessor();
 
         services.AddControllers();
 
         AddSwagger(services);
 
-        return services;
-    }
+        services.AddKeycloakAuthentication(configuration, o => o.RequireHttpsMetadata = false);
 
-    private static void AddCustomDependencies(IServiceCollection services)
-    {
-        services.AddScoped<ICurrentUserService, CurrentUserService>();
+        return services;
     }
 
     private static void AddSwagger(IServiceCollection services)
     {
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
-        
+
         services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo

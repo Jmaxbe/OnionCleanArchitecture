@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
-using Application.Employees.Commands.CreateEmployee;
+using Application.Common.Models.Dto.Employees;
+using Application.Common.Models.Dto.Employees.Response;
 using AutoMapper;
 using Domain.Entities;
 
@@ -10,6 +11,13 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
+
+        CreateMap<Employee, GetEmployeesResponseDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UniqueId));
+        CreateMap<Employee, UpdateEmployeeResponseDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UniqueId));
+        CreateMap<Employee, CreateEmployeeResponseDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UniqueId));
     }
 
     private void ApplyMappingsFromAssembly(Assembly assembly)
