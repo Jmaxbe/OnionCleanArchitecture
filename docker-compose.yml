@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  stafftimetableapi:
+    image: ${DOCKER_REGISTRY-}stafftimetableapi
+    container_name: StaffTimetableApi
+    build:
+      context: .
+      dockerfile: StaffTimeTableAPI/Dockerfile
+    ports:
+      - "8000:5000"
+  
+  keycloak:
+    image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}
+    container_name: KeyCloak
+    restart: on-failure
+    environment:
+      KEYCLOAK_ADMIN: master
+      KEYCLOAK_ADMIN_PASSWORD: master
+      KEYCLOAK_LOGLEVEL: INFO
+      ROOT_LOGLEVEL: INFO
+    volumes:
+      - type: bind
+        source: ./resources/keycloak/import/realm-export.json
+        target: /opt/keycloak/data/import/realm-export.json
+        read_only: true
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/realms/master" ]
+      start_period: 10s
+      interval: 30s
+      retries: 3
+      timeout: 5s
+  

@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace StaffTimeTableAPI.Controllers;
 
-[Authorize]
 public class EmployeeController : ApiControllerBase
 {
     /// <summary>
     /// Gets all employees
     /// </summary>
     /// <returns></returns>
+    [Authorize(Roles = "Member")]
     [HttpGet("[action]")]
     [ProducesResponseType(typeof(List<GetEmployeesResponseDto>), 200)]
     public async Task<ActionResult<List<GetEmployeesResponseDto>>> Get(CancellationToken cancellationToken)
@@ -28,6 +28,7 @@ public class EmployeeController : ApiControllerBase
     /// <param name="request">data to create</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize(Roles = "admin")]
     [HttpPost("[action]")]
     [ProducesResponseType(typeof(CreateEmployeeResponseDto), 200)]
     [ProducesDefaultResponseType]
@@ -52,6 +53,7 @@ public class EmployeeController : ApiControllerBase
     /// <param name="data">data to update</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize(Roles = "admin")]
     [HttpPut("[action]/{id}")]
     [ProducesResponseType(typeof(UpdateEmployeeResponseDto), 200)]
     public async Task<ActionResult<UpdateEmployeeResponseDto>> Update(Guid id, UpdateEmployeeRequestDto data, CancellationToken cancellationToken)
@@ -80,6 +82,7 @@ public class EmployeeController : ApiControllerBase
     /// <param name="id">employee Id</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
+    [Authorize(Roles = "manage-account")]
     [HttpDelete("[action]/{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesDefaultResponseType]

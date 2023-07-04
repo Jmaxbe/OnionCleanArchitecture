@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Keycloak.AuthServices.Authentication;
+using Keycloak.AuthServices.Authorization;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using StaffTimeTableAPI.Filters;
@@ -21,6 +22,12 @@ public static class ServiceInitializer
         AddSwagger(services);
 
         services.AddKeycloakAuthentication(configuration, o => o.RequireHttpsMetadata = false);
+        services.AddAuthorization(o => o.AddPolicy("IsAdmin", b =>
+        {
+            b.RequireRealmRoles("admin");
+            b.RequireResourceRoles("staff-timetable-realm");
+        }));
+        services.AddKeycloakAuthorization(configuration);
 
         return services;
     }
