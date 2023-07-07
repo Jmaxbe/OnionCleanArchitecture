@@ -14,7 +14,7 @@ public class EmployeeController : ApiControllerBase
     /// Gets all employees
     /// </summary>
     /// <returns></returns>
-    [Authorize(Roles = "Member")]
+    [Authorize]
     [HttpGet("[action]")]
     [ProducesResponseType(typeof(List<GetEmployeesResponseDto>), 200)]
     public async Task<ActionResult<List<GetEmployeesResponseDto>>> Get(CancellationToken cancellationToken)
@@ -28,7 +28,7 @@ public class EmployeeController : ApiControllerBase
     /// <param name="request">data to create</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
     [HttpPost("[action]")]
     [ProducesResponseType(typeof(CreateEmployeeResponseDto), 200)]
     [ProducesDefaultResponseType]

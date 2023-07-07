@@ -71,7 +71,8 @@
         "composites": {
           "realm": [
             "offline_access",
-            "uma_authorization"
+            "uma_authorization",
+            "Member"
           ],
           "client": {
             "account": [
@@ -328,6 +329,15 @@
           "clientRole": true,
           "containerId": "299c05b1-69b3-4aec-a167-aab3fb7fce13",
           "attributes": {}
+        },
+        {
+          "id": "11223503-2146-4535-b611-daf5b3593087",
+          "name": "test-role",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "299c05b1-69b3-4aec-a167-aab3fb7fce13",
+          "attributes": {}
         }
       ],
       "broker": [
@@ -431,7 +441,52 @@
       ]
     }
   },
-  "groups": [],
+  "groups": [
+    {
+      "id": "7621d01c-5754-405d-a631-857c55227591",
+      "name": "Admins",
+      "path": "/Admins",
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {},
+      "subGroups": [
+        {
+          "id": "450b4451-9ed1-43f5-84ef-4e6362241ef9",
+          "name": "AdminGroup",
+          "path": "/Admins/AdminGroup",
+          "attributes": {},
+          "realmRoles": [
+            "Admin"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        }
+      ]
+    },
+    {
+      "id": "71419f58-fa96-4057-8035-5ce54f9a553d",
+      "name": "Users",
+      "path": "/Users",
+      "attributes": {},
+      "realmRoles": [
+        "Member"
+      ],
+      "clientRoles": {},
+      "subGroups": [
+        {
+          "id": "bd4a7dd6-8fdf-44d6-9a35-e4b8187b536d",
+          "name": "TestGroup",
+          "path": "/Users/TestGroup",
+          "attributes": {},
+          "realmRoles": [
+            "Member"
+          ],
+          "clientRoles": {},
+          "subGroups": []
+        }
+      ]
+    }
+  ],
   "defaultRole": {
     "id": "334cac22-709b-47d9-87e8-034df7e2cd85",
     "name": "default-roles-staff-timetable-realm",
@@ -806,11 +861,19 @@
       "frontchannelLogout": true,
       "protocol": "openid-connect",
       "attributes": {
-        "oidc.ciba.grant.enabled": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
         "client.secret.creation.time": "1688486030",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "backchannel.logout.revoke.offline.tokens": "false",
+        "use.refresh.tokens": "true",
+        "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
-        "backchannel.logout.revoke.offline.tokens": "false"
+        "client_credentials.use_refresh_token": "false",
+        "tls.client.certificate.bound.access.tokens": "false",
+        "require.pushed.authorization.requests": "false",
+        "acr.loa.map": "{\"admin\":\"admin\",\"member\":\"member\",\"roles\":\"admin\"}",
+        "display.on.consent.screen": "false",
+        "token.response.type.bearer.lower-case": "false",
+        "default.acr.values": "1"
       },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": true,
@@ -820,6 +883,7 @@
         "acr",
         "profile",
         "roles",
+        "good-service",
         "email"
       ],
       "optionalClientScopes": [
@@ -1162,6 +1226,32 @@
       ]
     },
     {
+      "id": "bfafbaad-67e5-4428-97cc-7b1f4e26a732",
+      "name": "good-service",
+      "description": "",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "gui.order": "",
+        "consent.screen.text": ""
+      },
+      "protocolMappers": [
+        {
+          "id": "800667c4-77f0-432b-b208-1513b3771538",
+          "name": "my-app-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "staff-timetable-client",
+            "id.token.claim": "false",
+            "access.token.claim": "true"
+          }
+        }
+      ]
+    },
+    {
       "id": "af735ab8-70a7-414c-b3db-fb3900a9ebda",
       "name": "email",
       "description": "OpenID Connect built-in scope: email",
@@ -1216,6 +1306,21 @@
       },
       "protocolMappers": [
         {
+          "id": "6f1606e3-4b40-4dd1-8c6f-e50c0a6331b3",
+          "name": "common-role",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "false",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "claim.name": "roles",
+            "jsonType.label": "String"
+          }
+        },
+        {
           "id": "317ec28d-1b75-4b40-a64f-2676abf699a5",
           "name": "client roles",
           "protocol": "openid-connect",
@@ -1244,11 +1349,13 @@
           "protocolMapper": "oidc-usermodel-realm-role-mapper",
           "consentRequired": false,
           "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "false",
             "user.attribute": "foo",
-            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "access.token.claim": "false",
             "claim.name": "realm_access.roles",
-            "jsonType.label": "String",
-            "multivalued": "true"
+            "jsonType.label": "String"
           }
         }
       ]
@@ -1362,6 +1469,10 @@
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
   "smtpServer": {},
+  "loginTheme": "keycloak",
+  "accountTheme": "keycloak.v2",
+  "adminTheme": "keycloak.v2",
+  "emailTheme": "keycloak",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
@@ -1374,6 +1485,18 @@
   "components": {
     "org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy": [
       {
+        "id": "55e7122e-f56e-4c8a-a519-3d6bc5186d50",
+        "name": "Max Clients Limit",
+        "providerId": "max-clients",
+        "subType": "anonymous",
+        "subComponents": {},
+        "config": {
+          "max-clients": [
+            "200"
+          ]
+        }
+      },
+      {
         "id": "2c67e77c-daf2-4bb8-8e99-75adcd8f5fe6",
         "name": "Trusted Hosts",
         "providerId": "trusted-hosts",
@@ -1384,6 +1507,18 @@
             "true"
           ],
           "client-uris-must-match": [
+            "true"
+          ]
+        }
+      },
+      {
+        "id": "10049d7a-5b19-45ff-a2f8-95ff4a98cb53",
+        "name": "Allowed Client Scopes",
+        "providerId": "allowed-client-templates",
+        "subType": "authenticated",
+        "subComponents": {},
+        "config": {
+          "allow-default-scopes": [
             "true"
           ]
         }
@@ -1439,55 +1574,34 @@
         }
       },
       {
-        "id": "99b4dc8e-fc76-4261-afbb-f359273b0640",
-        "name": "Full Scope Disabled",
-        "providerId": "scope",
-        "subType": "anonymous",
-        "subComponents": {},
-        "config": {}
-      },
-      {
-        "id": "55e7122e-f56e-4c8a-a519-3d6bc5186d50",
-        "name": "Max Clients Limit",
-        "providerId": "max-clients",
-        "subType": "anonymous",
-        "subComponents": {},
-        "config": {
-          "max-clients": [
-            "200"
-          ]
-        }
-      },
-      {
-        "id": "10049d7a-5b19-45ff-a2f8-95ff4a98cb53",
-        "name": "Allowed Client Scopes",
-        "providerId": "allowed-client-templates",
-        "subType": "authenticated",
-        "subComponents": {},
-        "config": {
-          "allow-default-scopes": [
-            "true"
-          ]
-        }
-      },
-      {
         "id": "b1dbfa1f-4a79-4d4b-b6ac-e08076854bd9",
         "name": "Consent Required",
         "providerId": "consent-required",
         "subType": "anonymous",
         "subComponents": {},
         "config": {}
-      }
-    ],
-    "org.keycloak.userprofile.UserProfileProvider": [
+      },
       {
-        "id": "7efe0b3a-d9ef-4bbd-81ee-36dc59a884fd",
-        "providerId": "declarative-user-profile",
+        "id": "99b4dc8e-fc76-4261-afbb-f359273b0640",
+        "name": "Full Scope Disabled",
+        "providerId": "scope",
+        "subType": "anonymous",
         "subComponents": {},
         "config": {}
       }
     ],
     "org.keycloak.keys.KeyProvider": [
+      {
+        "id": "258ab687-f6e6-4459-9627-f6f691f4e323",
+        "name": "aes-generated",
+        "providerId": "aes-generated",
+        "subComponents": {},
+        "config": {
+          "priority": [
+            "100"
+          ]
+        }
+      },
       {
         "id": "5b48336e-50e3-4b26-bc4b-0787a1a59e19",
         "name": "hmac-generated",
@@ -1503,6 +1617,17 @@
         }
       },
       {
+        "id": "dbb3095e-2fab-422d-ba82-e376a1065d2b",
+        "name": "rsa-generated",
+        "providerId": "rsa-generated",
+        "subComponents": {},
+        "config": {
+          "priority": [
+            "100"
+          ]
+        }
+      },
+      {
         "id": "0c41a6aa-8db4-463e-a3c3-2334bbc0ea76",
         "name": "rsa-enc-generated",
         "providerId": "rsa-enc-generated",
@@ -1513,28 +1638,6 @@
           ],
           "algorithm": [
             "RSA-OAEP"
-          ]
-        }
-      },
-      {
-        "id": "258ab687-f6e6-4459-9627-f6f691f4e323",
-        "name": "aes-generated",
-        "providerId": "aes-generated",
-        "subComponents": {},
-        "config": {
-          "priority": [
-            "100"
-          ]
-        }
-      },
-      {
-        "id": "dbb3095e-2fab-422d-ba82-e376a1065d2b",
-        "name": "rsa-generated",
-        "providerId": "rsa-generated",
-        "subComponents": {},
-        "config": {
-          "priority": [
-            "100"
           ]
         }
       }
@@ -2248,6 +2351,21 @@
     "profiles": []
   },
   "clientPolicies": {
-    "policies": []
+    "policies": [
+      {
+        "name": "test-policy",
+        "description": "",
+        "enabled": true,
+        "conditions": [
+          {
+            "condition": "client-roles",
+            "configuration": {
+              "is-negative-logic": false
+            }
+          }
+        ],
+        "profiles": []
+      }
+    ]
   }
 }

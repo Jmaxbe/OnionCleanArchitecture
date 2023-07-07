@@ -1,6 +1,8 @@
-﻿using Application.Common.Interfaces;
-using Keycloak.AuthServices.Authentication;
-using Keycloak.AuthServices.Authorization;
+﻿using System.Security.Claims;
+using Application.Common.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using StaffTimeTableAPI.Filters;
@@ -20,14 +22,34 @@ public static class ServiceInitializer
         services.AddControllers();
 
         AddSwagger(services);
-
-        services.AddKeycloakAuthentication(configuration, o => o.RequireHttpsMetadata = false);
-        services.AddAuthorization(o => o.AddPolicy("IsAdmin", b =>
+        
+        IdentityModelEventSource.ShowPII = true;
+        services.AddAuthentication(options =>
         {
-            b.RequireRealmRoles("admin");
-            b.RequireResourceRoles("staff-timetable-realm");
-        }));
-        services.AddKeycloakAuthorization(configuration);
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.
+                AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.
+                AuthenticationScheme;
+        }).AddJwtBearer(o =>
+        {
+            o.Authority = configuration["Jwt:Authority"];
+            o.Audience = configuration["Jwt:Audience"];
+            o.RequireHttpsMetadata = false;
+            o.TokenValidationParameters = new TokenValidationParameters
+            {
+                RequireAudience = true,
+                RequireExpirationTime = true,
+                RoleClaimType = ClaimTypes.
+                    Role,
+                ValidateAudience = true,
+                ValidateIssuer = true,
+                ValidateLifetime = true,
+                ValidAudience = configuration["Jwt:Audience"],
+                ValidIssuer = configuration["Jwt:Authority"],
+                ValidateIssuerSigningKey = true
+            };
+        });
+        services.AddAuthorization();
 
         return services;
     }

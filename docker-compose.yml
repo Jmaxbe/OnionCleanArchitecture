@@ -8,11 +8,27 @@ services:
       context: .
       dockerfile: StaffTimeTableAPI/Dockerfile
     ports:
-      - "8000:5000"
+      - "8000:80"
+    depends_on:
+      - stafftimetableapidb
+  
+  stafftimetableapidb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: StaffTimetableDB
+    hostname: stafftimetableapidb
+    restart: on-failure
+    environment:
+      SA_PASSWORD: "aChFfXrQXVi0MTK8cf8q"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    expose:
+      - 1433
   
   keycloak:
-    image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}
+    image: quay.io/keycloak/keycloak:21.1.2
     container_name: KeyCloak
+    hostname: keycloak
     restart: on-failure
     environment:
       KEYCLOAK_ADMIN: master
@@ -20,10 +36,10 @@ services:
       KEYCLOAK_LOGLEVEL: INFO
       ROOT_LOGLEVEL: INFO
     volumes:
-      - type: bind
-        source: ./resources/keycloak/import/realm-export.json
-        target: /opt/keycloak/data/import/realm-export.json
-        read_only: true
+      - ./resources/keycloak/import/realm-export.json:/opt/keycloak/data/import/realm.json
+    command:
+      - start-dev
+      - --import-realm
     ports:
       - "8080:8080"
     healthcheck:
