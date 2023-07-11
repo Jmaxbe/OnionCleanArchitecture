@@ -5,6 +5,8 @@ using Application.Employees.Commands.UpdateEmployee;
 using Application.Employees.Queries.GetEmployees;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Extensions;
+using StaffTimeTableAPI.Models.Roles;
 
 namespace StaffTimeTableAPI.Controllers;
 
@@ -28,7 +30,7 @@ public class EmployeeController : ApiControllerBase
     /// <param name="request">data to create</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = RoleConstants.Admin)]
     [HttpPost("[action]")]
     [ProducesResponseType(typeof(CreateEmployeeResponseDto), 200)]
     [ProducesDefaultResponseType]
@@ -53,7 +55,7 @@ public class EmployeeController : ApiControllerBase
     /// <param name="data">data to update</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = RoleConstants.Admin)]
     [HttpPut("[action]/{id}")]
     [ProducesResponseType(typeof(UpdateEmployeeResponseDto), 200)]
     public async Task<ActionResult<UpdateEmployeeResponseDto>> Update(Guid id, UpdateEmployeeRequestDto data, CancellationToken cancellationToken)
@@ -82,7 +84,7 @@ public class EmployeeController : ApiControllerBase
     /// <param name="id">employee Id</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [Authorize(Roles = "manage-account")]
+    [Authorize(Roles = RoleConstants.Admin)]
     [HttpDelete("[action]/{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesDefaultResponseType]

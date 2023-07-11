@@ -1,5 +1,4 @@
-﻿using Application.Common.Models.Dto.Employees;
-using Application.Common.Models.Dto.Employees.Response;
+﻿using Application.Common.Models.Dto.Employees.Response;
 using MediatR;
 
 namespace Application.Employees.Commands.CreateEmployee;

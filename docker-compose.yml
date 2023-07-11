@@ -11,6 +11,8 @@ services:
       - "8000:80"
     depends_on:
       - stafftimetableapidb
+    networks:
+      - network
   
   stafftimetableapidb:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -24,6 +26,8 @@ services:
       - "1433:1433"
     expose:
       - 1433
+    networks:
+      - network
   
   keycloak:
     image: quay.io/keycloak/keycloak:21.1.2
@@ -42,10 +46,18 @@ services:
       - --import-realm
     ports:
       - "8080:8080"
+    networks:
+      - network
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/realms/master" ]
       start_period: 10s
       interval: 30s
       retries: 3
       timeout: 5s
+    
   
+networks:
+  network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450

@@ -12,11 +12,13 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
 {
     private readonly IUnitOfWork _context;
     private readonly IMapper _mapper;
+    private readonly IKeyCloakApi _keyCloakApi;
 
-    public CreateEmployeeCommandHandler(IUnitOfWork context, IMapper mapper)
+    public CreateEmployeeCommandHandler(IUnitOfWork context, IMapper mapper, IKeyCloakApi keyCloakApi)
     {
         _context = context;
         _mapper = mapper;
+        _keyCloakApi = keyCloakApi;
     }
     
     public async Task<CreateEmployeeResponseDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
@@ -31,6 +33,8 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
             BirthDate = request.BirthDate,
         };
 
+        var s = await _keyCloakApi.CreateUser();
+        
         await _context.Employees.AddWithDomainEventAsync(employee, new EmployeeCreatedEvent(employee),
             cancellationToken);
 

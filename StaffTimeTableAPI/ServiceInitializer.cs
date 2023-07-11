@@ -24,31 +24,9 @@ public static class ServiceInitializer
         AddSwagger(services);
         
         IdentityModelEventSource.ShowPII = true;
-        services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.
-                AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.
-                AuthenticationScheme;
-        }).AddJwtBearer(o =>
-        {
-            o.Authority = configuration["Jwt:Authority"];
-            o.Audience = configuration["Jwt:Audience"];
-            o.RequireHttpsMetadata = false;
-            o.TokenValidationParameters = new TokenValidationParameters
-            {
-                RequireAudience = true,
-                RequireExpirationTime = true,
-                RoleClaimType = ClaimTypes.
-                    Role,
-                ValidateAudience = true,
-                ValidateIssuer = true,
-                ValidateLifetime = true,
-                ValidAudience = configuration["Jwt:Audience"],
-                ValidIssuer = configuration["Jwt:Authority"],
-                ValidateIssuerSigningKey = true
-            };
-        });
+        
+        AddJwt(services, configuration);
+        
         services.AddAuthorization();
 
         return services;
@@ -78,6 +56,35 @@ public static class ServiceInitializer
             });
             options.OperationFilter<SecureEndpointAuthRequirementFilter>();
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "StaffTimeTableAPI.xml"));
+        });
+    }
+
+    private static void AddJwt(IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.
+                AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.
+                AuthenticationScheme;
+        }).AddJwtBearer(o =>
+        {
+            o.Authority = configuration["Jwt:Authority"];
+            o.Audience = configuration["Jwt:Audience"];
+            o.RequireHttpsMetadata = false;
+            o.TokenValidationParameters = new TokenValidationParameters
+            {
+                RequireAudience = true,
+                RequireExpirationTime = true,
+                RoleClaimType = ClaimTypes.
+                    Role,
+                ValidateAudience = true,
+                ValidateIssuer = true,
+                ValidateLifetime = true,
+                ValidAudience = configuration["Jwt:Audience"],
+                ValidIssuer = configuration["Jwt:Authority"],
+                ValidateIssuerSigningKey = true
+            };
         });
     }
 }
