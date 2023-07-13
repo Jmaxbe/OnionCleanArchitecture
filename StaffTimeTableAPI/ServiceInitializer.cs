@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using StaffTimeTableAPI.Filters;
 using StaffTimeTableAPI.Services;
 
@@ -28,6 +29,8 @@ public static class ServiceInitializer
         AddJwt(services, configuration);
         
         services.AddAuthorization();
+        
+        AddLogging(services, configuration);
 
         return services;
     }
@@ -85,6 +88,18 @@ public static class ServiceInitializer
                 ValidIssuer = configuration["Jwt:Authority"],
                 ValidateIssuerSigningKey = true
             };
+        });
+    }
+
+    private static void AddLogging(IServiceCollection services, IConfiguration configuration)
+    {
+        Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(configuration)
+            .CreateLogger();
+
+        services.AddLogging(builder =>
+        {
+            builder.AddSerilog();
         });
     }
 }
