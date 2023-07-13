@@ -14,4 +14,12 @@ public class CurrentUserService : ICurrentUserService
 
     //public string? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier); 
     public string? UserId => "Test userId"; 
+    
+    //TODO:Создать следующего клиента, обращаться по hhtp(REFIT или аналог) или GRPC
+    //TODO:Закинуть в условную некст API какого-то сендера в очередь просто
+    //TODO:Про Kafka прочитать
+    //TODO:Метрики Promrteus\Graphana
+    //TODO:Трассировка Jaeger
+    //TODO:Тесты
+    //TODO:Скинуть Артёму план развития в Notion
 }

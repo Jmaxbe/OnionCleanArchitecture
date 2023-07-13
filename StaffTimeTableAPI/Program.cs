@@ -1,18 +1,23 @@
+using System.Reflection;
 using Application;
 using IdentityServices;
 using Infrastructure;
 using Serilog;
+using Serilog.Sinks.Elasticsearch;
 using StaffTimeTableAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddSerilog();
 
 Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
-    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
-    .WriteTo.Console()
-    .WriteTo.File(builder.Configuration["Logging:LogPath"]!, rollingInterval: RollingInterval.Day)
+    .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
+    //TODO:ADD correlation id and other enrich
+    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(builder.Configuration["ElasticConfiguration:Uri"]!))
+    {
+        AutoRegisterTemplate = true,
+        IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name!.ToLower().Replace(".", "-")}-{"Environment"?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
+    })
     .CreateLogger();
 
 // Add services to the container.

@@ -3,35 +3,40 @@ version: '3.4'
 services:
   stafftimetableapi:
     image: ${DOCKER_REGISTRY-}stafftimetableapi
-    container_name: StaffTimetableApi
+    container_name: stafftimetableapi
     build:
       context: .
       dockerfile: StaffTimeTableAPI/Dockerfile
     ports:
       - "8000:80"
+    restart: unless-stopped
     depends_on:
       - stafftimetableapidb
+      - keycloak
+      - elasticsearch
     networks:
-      - network
+      - appnet
+      - internet
   
   stafftimetableapidb:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: StaffTimetableDB
+    container_name: stafftimetableapidb
     hostname: stafftimetableapidb
     restart: on-failure
     environment:
-      SA_PASSWORD: "aChFfXrQXVi0MTK8cf8q"
       ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "aChFfXrQXVi0MTK8cf8q"
+      MSSQL_PID: "Developer"
     ports:
       - "1433:1433"
     expose:
       - 1433
     networks:
-      - network
+      - appnet
   
   keycloak:
     image: quay.io/keycloak/keycloak:21.1.2
-    container_name: KeyCloak
+    container_name: keycloak
     hostname: keycloak
     restart: on-failure
     environment:
@@ -46,18 +51,45 @@ services:
       - --import-realm
     ports:
       - "8080:8080"
-    networks:
-      - network
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/realms/master" ]
       start_period: 10s
       interval: 30s
       retries: 3
       timeout: 5s
-    
+    networks:
+      - appnet
+      - internet
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - xpack.monitoring.templates.enabled=true
+      - xpack.watcher.enabled=false
+      - xpack.profiling.enabled=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    networks:
+      - appnet
+  
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.8.1
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://localhost:9200
+    networks:
+      - appnet
   
 networks:
-  network:
+  internet:
     driver: bridge
-    driver_opts:
-      com.docker.network.driver.mtu: 1450
+  appnet:
+    driver: bridge
