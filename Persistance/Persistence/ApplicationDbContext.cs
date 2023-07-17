@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Domain.Entities;
 using Domain.Entities.Dictionaries;
-using Infrastructure.Common;
+using Infrastructure.Extensions;
 using Infrastructure.Persistence.Interceptors;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

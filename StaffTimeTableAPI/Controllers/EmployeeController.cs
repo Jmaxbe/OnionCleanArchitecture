@@ -3,6 +3,7 @@ using Application.Employees.Commands.CreateEmployee;
 using Application.Employees.Commands.DeleteEmployee;
 using Application.Employees.Commands.UpdateEmployee;
 using Application.Employees.Queries.GetEmployees;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Extensions;
@@ -41,10 +42,14 @@ public class EmployeeController : ApiControllerBase
             FirstName = request.FirstName,
             LastName = request.LastName,
             MiddleName = request.MiddleName,
-            UserPhone = request.UserPhone,
+            UserPhone = request.Phone,
+            Email = request.Email,
+            UserName = request.UserName,
+            Password = request.Password,
             IsMale = request.IsMale,
             HireDate = request.HireDate,
-            BirthDate = request.BirthDate
+            BirthDate = request.BirthDate,
+            UserRoles = request.UserRoles
         }, cancellationToken);
     }
     

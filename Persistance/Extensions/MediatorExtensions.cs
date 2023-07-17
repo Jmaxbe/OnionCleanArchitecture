@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Common;
+namespace Infrastructure.Extensions;
 
 public static class MediatorExtensions
 {

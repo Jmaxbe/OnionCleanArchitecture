@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models.Dto.Employees;
 using Application.Common.Models.Dto.Employees.Response;
+using Application.Common.Models.Dto.Keycloak.Request;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Events;
@@ -31,9 +32,23 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
             IsMale = request.IsMale,
             HireDate = request.HireDate,
             BirthDate = request.BirthDate,
+            UserEmail = request.Email
+        };
+        
+        var keycloakUser = _mapper.Map<CreateUserDto>(request);
+        keycloakUser.Credentials = new List<Credentials>()
+        {
+            new Credentials
+            {
+                Type = "password",
+                Value = request.Password,
+                Temporary = false
+            }
         };
 
-        var s = await _keyCloakApi.CreateUser();
+        var userId = await _keyCloakApi.CreateUser(keycloakUser);
+
+        employee.ExternalUserId = userId;
         
         await _context.Employees.AddWithDomainEventAsync(employee, new EmployeeCreatedEvent(employee),
             cancellationToken);

@@ -3,5 +3,6 @@
 public class RoleConstants
 {
     public const string Admin = "Admin";
-    public const string Member = "Member";
+    public const string Employee = "Employee";
+    public const string User = "User";
 }

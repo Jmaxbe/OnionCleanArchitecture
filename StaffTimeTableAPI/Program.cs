@@ -1,7 +1,6 @@
 using Application;
 using IdentityServices;
 using Infrastructure;
-using Serilog;
 using StaffTimeTableAPI;
 
 var builder = WebApplication.CreateBuilder(args);

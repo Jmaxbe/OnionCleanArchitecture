@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "http": {
+    "StaffTimeTableApi.Dev": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -8,14 +8,14 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5208"
+      "applicationUrl": "https://localhost:7000;http://localhost:5208"
     },
-    "https": {
+    "StaffTimeTableApi.Prod": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7000;http://localhost:5208"

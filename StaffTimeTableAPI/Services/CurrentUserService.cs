@@ -12,11 +12,10 @@ public class CurrentUserService : ICurrentUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    //public string? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier); 
-    public string? UserId => "Test userId"; 
-    
+    public string? UserId => _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
     //TODO:Создать следующего клиента, обращаться по hhtp(REFIT или аналог) или GRPC
-    //TODO:Закинуть в условную некст API какого-то сендера в очередь просто
+    //TODO:Закинуть в условную некст 3 API какого-то сендера в очередь просто
     //TODO:Про Kafka прочитать
     //TODO:Метрики Promrteus\Graphana
     //TODO:Трассировка Jaeger
