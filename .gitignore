@@ -7,4 +7,5 @@ riderModule.iml
 *.csproj.user
 .vs/
 *.sln.DotSettings.user
-/logs
+logs/
+*.log

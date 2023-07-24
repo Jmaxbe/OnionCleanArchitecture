@@ -8,6 +8,9 @@ builder.Services.AddKafkaConsumerServices(builder.Configuration);
 var app = builder.Build();
 
 await app.ConfigureMiddleware();
+
 app.RegisterEndpoints();
 
-app.Run();
+await app.StartKafkaBus();
+
+await app.RunAsync();

@@ -1,4 +1,6 @@
-﻿namespace KafkaConsumer;
+﻿using KafkaFlow;
+
+namespace KafkaConsumer;
 
 public static class EndpointMapper
 {
@@ -14,6 +16,14 @@ public static class EndpointMapper
 
         app.MapControllers();
         
+        return app;
+    }
+    
+    public static async Task<WebApplication> StartKafkaBus(this WebApplication app)
+    {
+        var kafkaBus = app.Services.CreateKafkaBus();
+        await kafkaBus.StartAsync();
+
         return app;
     }
 }
