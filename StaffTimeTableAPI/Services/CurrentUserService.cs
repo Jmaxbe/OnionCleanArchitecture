@@ -20,5 +20,5 @@ public class CurrentUserService : ICurrentUserService
     //TODO:Метрики Promrteus\Graphana
     //TODO:Трассировка Jaeger
     //TODO:Тесты
-    //TODO:Скинуть Артёму план развития в Notion
+    //TODO:Написать подробно в Excel
 }

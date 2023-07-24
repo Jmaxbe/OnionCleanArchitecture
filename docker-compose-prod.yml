@@ -3,7 +3,7 @@ version: '3.4'
 services:
   stafftimetableapi:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "80"
@@ -13,7 +13,7 @@ services:
   
   todoapi:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "80"
@@ -23,7 +23,7 @@ services:
   
   kafkaproducer:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "80"
@@ -33,7 +33,7 @@ services:
   
   kafkaconsumer:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "80"

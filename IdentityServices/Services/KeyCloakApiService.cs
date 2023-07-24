@@ -167,6 +167,7 @@ public class KeyCloakApiService : IKeyCloakApi
         var responseList = new ConcurrentBag<RoleResponse>();
         var errors = new List<string>();
 
+        //TODO:Эффективнее в памяти обрабатывать, вытащив всё, проверив на дубли
         await Parallel.ForEachAsync(roleNames, cancellationToken, async (roleName, ct) =>
         {
             var response = await _httpClient.GetAsync($"admin/realms/{Realm}/roles/{roleName}", ct);
