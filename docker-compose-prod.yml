@@ -1,0 +1,167 @@
+version: '3.4'
+
+services:
+  stafftimetableapi:
+    image: ${DOCKER_REGISTRY-}stafftimetableapi
+    container_name: stafftimetableapi
+    hostname: stafftimetableapi
+    build:
+      context: .
+      dockerfile: StaffTimeTableAPI/Dockerfile
+    ports:
+      - "8000:80"
+    restart: unless-stopped
+    depends_on:
+      - stafftimetableapidb
+      - keycloak
+      - seq
+    networks:
+      - appnet
+      - internet
+  
+  todoapi:
+    image: ${DOCKER_REGISTRY-}todoapi
+    container_name: todoapi
+    hostname: todoapi
+    build:
+      context: .
+      dockerfile: ToDoAPI/Dockerfile
+    ports:
+      - "9000:80"
+    restart: unless-stopped
+    depends_on:
+      - stafftimetableapidb
+      - keycloak
+      - seq
+    networks:
+      - appnet
+      - internet
+  
+  kafkaproducer:
+    image: ${DOCKER_REGISTRY-}kafkaproducer
+    container_name: kafkaproducer
+    hostname: kafkaproducer
+    build:
+      context: .
+      dockerfile: KafkaProducer/Dockerfile
+    ports:
+      - "9900:80"
+    restart: unless-stopped
+    depends_on:
+      - keycloak
+      - seq
+    networks:
+      - appnet
+      - internet
+  
+  kafkaconsumer:
+    image: ${DOCKER_REGISTRY-}kafkaconsumer
+    container_name: kafkaconsumer
+    hostname: kafkaconsumer
+    build:
+      context: .
+      dockerfile: KafkaConsumer/Dockerfile
+    ports:
+      - "9800:80"
+    restart: unless-stopped
+    depends_on:
+      - keycloak
+      - seq
+    networks:
+      - appnet
+      - internet
+    
+  
+  stafftimetableapidb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: stafftimetableapidb
+    hostname: stafftimetableapidb
+    restart: on-failure
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "aChFfXrQXVi0MTK8cf8q"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    expose:
+      - 1433
+    networks:
+      - appnet
+  
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.2
+    container_name: keycloak
+    hostname: keycloak
+    restart: on-failure
+    environment:
+      KEYCLOAK_ADMIN: master
+      KEYCLOAK_ADMIN_PASSWORD: master
+      KEYCLOAK_LOGLEVEL: INFO
+      ROOT_LOGLEVEL: INFO
+    volumes:
+      - ./resources/keycloak/import/realm-export.json:/opt/keycloak/data/import/realm.json
+    command:
+      - start-dev
+      - --import-realm
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/realms/master" ]
+      start_period: 10s
+      interval: 30s
+      retries: 3
+      timeout: 5s
+    networks:
+      - appnet
+      - internet
+  
+  seq:
+    image: datalust/seq:latest
+    container_name: seq
+    hostname: seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "5341:80"
+    networks:
+      - appnet
+      - internet
+  
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    hostname: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "22181:2181"
+    networks:
+      - appnet
+      - internet
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    hostname: kafka
+    ports:
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+    networks:
+      - appnet
+      - internet
+      
+  
+networks:
+  internet:
+    driver: bridge
+  appnet:
+    driver: bridge
