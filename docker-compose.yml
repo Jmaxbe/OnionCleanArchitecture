@@ -159,6 +159,20 @@ services:
       - appnet
       - internet
       
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "29093:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: Brokers
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_METRICS_PORT: 9997
+      DYNAMIC_CONFIG_ENABLED: 'true'
+    networks:
+      - appnet
+      - internet
+    
   
 networks:
   internet:

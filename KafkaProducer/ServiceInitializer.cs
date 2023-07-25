@@ -128,6 +128,7 @@ public static class ServiceInitializer
     //TODO:SAGA
     //TODO:Retry Polly
     //TODO:https://learn.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/implement-circuit-breaker-pattern
+    //TODO:circuit breaker c#
     //TODO:Интеграционные тесты
 
     //TODO:Health chech
