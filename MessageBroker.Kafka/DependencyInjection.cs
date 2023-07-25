@@ -12,7 +12,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddKafka(this IServiceCollection services, IConfiguration configuration)
     {
-        //TODO:https://www.youtube.com/watch?v=4xpjlqIlfY8&ab_channel=NDCConferences
         services.AddKafka(kafka => kafka
             .UseMicrosoftLog()
             .AddCluster(cluster => cluster

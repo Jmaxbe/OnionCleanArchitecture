@@ -12,6 +12,12 @@
       <None Include="docker-compose.override.yml">
           <DependentUpon>docker-compose.yml</DependentUpon>
       </None>
-      <None Include="docker-compose.yml"/>
+      <None Include="docker-compose.yml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="grafana\provisioning\dashboards\dashboard.yml" />
+    <Content Include="grafana\provisioning\dashboards\TestAPIGrafanaDashboard.json" />
+    <Content Include="grafana\provisioning\datasources\prometheus_ds.yml" />
+    <Content Include="prometheus\prometheus.yml" />
   </ItemGroup>
 </Project>
