@@ -1,4 +1,6 @@
-﻿namespace StaffTimeTableAPI;
+﻿using System.Security.Claims;
+
+namespace StaffTimeTableAPI;
 
 public static class EndpointMapper
 {
@@ -11,7 +13,7 @@ public static class EndpointMapper
 
         app.UseAuthentication();
         app.UseAuthorization();
-        
+
         app.MapControllers();
         
         return app;

@@ -6,7 +6,7 @@ namespace Domain.Common;
 public abstract class BaseEntity
 {
     [Key]
-    public int Id { get; set; }
+    public long Id { get; set; }
 
     public Guid UniqueId { get; set; }
     

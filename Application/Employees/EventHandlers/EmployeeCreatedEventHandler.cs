@@ -1,10 +1,9 @@
 ﻿using Domain.Events;
-using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Employees.EventHandlers;
 
-public class EmployeeCreatedEventHandler : INotificationHandler<EmployeeCreatedEvent>
+public class EmployeeCreatedEventHandler
 {
     private readonly ILogger<EmployeeCreatedEventHandler> _logger;
 
