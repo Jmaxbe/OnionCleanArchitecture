@@ -16,7 +16,6 @@ public class CurrentUserService : ICurrentUserService
 
     //TODO:Создать следующего клиента, обращаться по hhtp(REFIT или аналог) или GRPC
     //TODO:Закинуть в условную некст 3 API какого-то сендера в очередь просто
-    //TODO:Про Kafka прочитать
     //TODO:Метрики Promrteus\Graphana
     //TODO:Трассировка Jaeger
     //TODO:Тесты

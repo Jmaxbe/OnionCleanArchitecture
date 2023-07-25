@@ -12,9 +12,16 @@ services:
       - "8000:80"
     restart: unless-stopped
     depends_on:
-      - stafftimetableapidb
-      - keycloak
-      - seq
+      prometheus:
+        condition: service_healthy
+      grafana:
+        condition: service_healthy
+      seq:
+        condition: service_started
+      stafftimetableapidb:
+        condition: service_started
+      keycloak:
+        condition: service_started
     networks:
       - appnet
       - internet
@@ -71,7 +78,6 @@ services:
       - appnet
       - internet
     
-  
   stafftimetableapidb:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: stafftimetableapidb
@@ -106,7 +112,7 @@ services:
     ports:
       - "8080:8080"
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/realms/master" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health/ready" ]
       start_period: 10s
       interval: 30s
       retries: 3
@@ -172,6 +178,46 @@ services:
     networks:
       - appnet
       - internet
+        
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:master
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+    depends_on:
+      prometheus:
+        condition: service_healthy
+    healthcheck:
+      test: wget -q --tries=1 -O- http://localhost:3000/
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - appnet
+      - internet
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    healthcheck:
+      test: wget -q --tries=1 -O- http://localhost:9090/
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - appnet
+      - internet
+      
     
   
 networks:
