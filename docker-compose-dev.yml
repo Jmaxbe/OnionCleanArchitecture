@@ -5,6 +5,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - JAEGER_SERVICE_NAME=stafftimetableapi
+      - JAEGER_AGENT_HOST=jaeger-agent
+      - JAEGER_AGENT_PORT=6831
+      - JAEGER_SAMPLER_TYPE=const
+      - JAEGER_SAMPLER_PARAM=1
     ports:
       - "80"
     volumes:
