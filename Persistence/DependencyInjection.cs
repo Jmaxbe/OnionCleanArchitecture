@@ -14,17 +14,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        if (configuration.GetValue<bool>("UseInMemoryDatabase"))
+        services.AddDbContext<ApplicationDbContext>(options =>
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseInMemoryDatabase("OnionCleanArchitectureDb"));
-        }
-        else
-        {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("ApplicationConnection"),
-                    builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-        }
+            options.UseNpgsql(configuration.GetConnectionString("ApplicationConnection"),
+                builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+        });
         
         services.AddScoped<AuditableEntitySaveChangesInterceptor>();
         services.AddScoped<ApplicationDbContextInitializer>();
