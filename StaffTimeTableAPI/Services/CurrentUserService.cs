@@ -14,9 +14,14 @@ public class CurrentUserService : ICurrentUserService
 
     public string? UserId => _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+    //TODO:Посмотреть как нужно убрать либо пользователей, либо TODO и как это связать
+    //TODO:Что такое распределенный монолит
     //TODO:Создать следующего клиента, обращаться по hhtp(REFIT или аналог) или GRPC
     //TODO:Закинуть в условную некст 3 API какого-то сендера в очередь просто
-    //TODO:Метрики Promrteus\Graphana
+    //TODO:Собирать health check в Grafana
+    //TODO:GateWay добавить
+    //TODO:Notify для решения Kafka
+    //TODO:DB на solution
     //TODO:Трассировка Jaeger
     //TODO:Тесты
     //TODO:Написать подробно в Excel

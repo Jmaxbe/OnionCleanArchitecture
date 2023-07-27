@@ -1,10 +1,15 @@
-﻿using System.Security.Claims;
+﻿using System.Diagnostics;
+using System.Security.Claims;
 using Application.Common.Interfaces;
+using Jaeger.Senders;
+using Jaeger.Senders.Thrift;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using OpenTracing;
+using OpenTracing.Util;
 using Serilog;
 using StaffTimeTableAPI.Filters;
 using StaffTimeTableAPI.Services;
@@ -31,6 +36,8 @@ public static class ServiceInitializer
         services.AddAuthorization();
         
         AddLogging(services, configuration);
+
+        AddJaeger(services);
 
         return services;
     }
@@ -102,4 +109,30 @@ public static class ServiceInitializer
             builder.AddSerilog();
         });
     }
+
+    private static void AddJaeger(IServiceCollection services)
+    {
+        services.AddSingleton<ITracer>(serviceProvider =>
+        {
+            ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+     
+            Jaeger.Configuration.SenderConfiguration.DefaultSenderResolver = new SenderResolver(loggerFactory).RegisterSenderFactory<ThriftSenderFactory>();
+     
+            var config = Jaeger.Configuration.FromEnv(loggerFactory);
+     
+            ITracer tracer = config.GetTracer();
+     
+            GlobalTracer.Register(tracer);
+     
+            return tracer;
+        });
+     
+        services.AddOpenTracing();
+    }
+}
+
+public static class DiagnosticsConfig
+{
+    public const string ServiceName = "UserService";
+    public static ActivitySource ActivitySource = new ActivitySource(ServiceName);
 }
