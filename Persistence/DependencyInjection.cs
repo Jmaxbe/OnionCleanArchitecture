@@ -34,8 +34,6 @@ public static class DependencyInjection
 
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
-        services.AddAuthorization();
-        
         return services;
     }
 }
