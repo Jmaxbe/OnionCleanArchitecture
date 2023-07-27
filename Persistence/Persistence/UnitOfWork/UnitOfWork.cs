@@ -1,6 +1,5 @@
 ﻿using Application.Common.Interfaces;
 using Infrastructure.Persistence.Repository;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Persistence.UnitOfWork;
 

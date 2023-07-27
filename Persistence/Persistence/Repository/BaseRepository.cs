@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Application.Common.Interfaces;
 using Domain.Common;
-using Infrastructure.Persistence.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repository;
