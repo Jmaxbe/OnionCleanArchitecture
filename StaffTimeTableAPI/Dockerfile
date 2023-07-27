@@ -8,7 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["StaffTimeTableAPI/StaffTimeTableAPI.csproj", "StaffTimeTableAPI/"]
-COPY ["Persistance/Persistance.csproj", "Persistance/"]
+COPY ["Persistence/Persistence.csproj", "Persistence/"]
 COPY ["Application/Application.csproj", "Application/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
 RUN dotnet restore "StaffTimeTableAPI/StaffTimeTableAPI.csproj"

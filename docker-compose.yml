@@ -19,7 +19,7 @@ services:
       seq:
         condition: service_started
       stafftimetableapidb:
-        condition: service_started
+        condition: service_healthy
       keycloak:
         condition: service_started
     networks:
@@ -79,18 +79,22 @@ services:
       - internet
     
   stafftimetableapidb:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: postgres:15.3
     container_name: stafftimetableapidb
     hostname: stafftimetableapidb
-    restart: on-failure
+    restart: unless-stopped
     environment:
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "aChFfXrQXVi0MTK8cf8q"
-      MSSQL_PID: "Developer"
+      POSTGRES_DB: "staff_time_table"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "k@}ujt4A-(z@yWAn"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d staff_time_table" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     ports:
-      - "1433:1433"
-    expose:
-      - 1433
+      - "5432:5432"
     networks:
       - appnet
   

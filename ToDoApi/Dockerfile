@@ -11,7 +11,7 @@ COPY ["ToDoAPI/ToDoAPI.csproj", "ToDoAPI/"]
 COPY ["Application/Application.csproj", "Application/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
 COPY ["IdentityServices/IdentityServices.csproj", "IdentityServices/"]
-COPY ["Persistance/Persistance.csproj", "Persistance/"]
+COPY ["Persistence/Persistence.csproj", "Persistence/"]
 RUN dotnet restore "ToDoAPI/ToDoAPI.csproj"
 COPY . .
 WORKDIR "/src/ToDoAPI"
