@@ -17,3 +17,5 @@ await app.ConfigureMiddleware();
 app.RegisterEndpoints();
 
 app.Run();
+
+public partial class Program { }

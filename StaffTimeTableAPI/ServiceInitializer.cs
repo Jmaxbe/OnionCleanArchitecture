@@ -130,9 +130,3 @@ public static class ServiceInitializer
         services.AddOpenTracing();
     }
 }
-
-public static class DiagnosticsConfig
-{
-    public const string ServiceName = "UserService";
-    public static ActivitySource ActivitySource = new ActivitySource(ServiceName);
-}

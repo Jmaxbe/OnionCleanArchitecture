@@ -120,6 +120,7 @@ public static class ServiceInitializer
                     // .WithAcks(Acks.All)
                     // .WithCompression(CompressionType.Gzip)
                     .AddMiddlewares(m=>m.AddSerializer<JsonCoreSerializer>())
+                
                 )
             )
         );

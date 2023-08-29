@@ -12,19 +12,13 @@ services:
       - "8000:80"
     restart: unless-stopped
     depends_on:
-      prometheus:
-        condition: service_healthy
-      grafana:
-        condition: service_healthy
-      seq:
-        condition: service_started
-      stafftimetableapidb:
-        condition: service_healthy
-      keycloak:
-        condition: service_started
+      - prometheus
+      - grafana
+      - seq
+      - stafftimetableapidb
+      - keycloak
     networks:
-      - appnet
-      - internet
+      - default
   
   todoapi:
     image: ${DOCKER_REGISTRY-}todoapi
@@ -41,8 +35,7 @@ services:
       - keycloak
       - seq
     networks:
-      - appnet
-      - internet
+      - default
   
   kafkaproducer:
     image: ${DOCKER_REGISTRY-}kafkaproducer
@@ -58,8 +51,7 @@ services:
       - keycloak
       - seq
     networks:
-      - appnet
-      - internet
+      - default
   
   kafkaconsumer:
     image: ${DOCKER_REGISTRY-}kafkaconsumer
@@ -75,8 +67,7 @@ services:
       - keycloak
       - seq
     networks:
-      - appnet
-      - internet
+      - default
     
   stafftimetableapidb:
     image: postgres:15.3
@@ -96,7 +87,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - appnet
+      - default
   
   keycloak:
     image: quay.io/keycloak/keycloak:21.1.2
@@ -122,8 +113,7 @@ services:
       retries: 3
       timeout: 5s
     networks:
-      - appnet
-      - internet
+      - default
   
   seq:
     image: datalust/seq:latest
@@ -134,55 +124,8 @@ services:
     ports:
       - "5341:80"
     networks:
-      - appnet
-      - internet
+      - default
   
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    container_name: zookeeper
-    hostname: zookeeper
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - "22181:2181"
-    networks:
-      - appnet
-      - internet
-
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    container_name: kafka
-    hostname: kafka
-    ports:
-      - "29092:29092"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    depends_on:
-      - zookeeper
-    networks:
-      - appnet
-      - internet
-      
-  kafka-ui:
-    container_name: kafka-ui
-    image: provectuslabs/kafka-ui:latest
-    ports:
-      - "29093:8080"
-    environment:
-      KAFKA_CLUSTERS_0_NAME: Brokers
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
-      KAFKA_CLUSTERS_0_METRICS_PORT: 9997
-      DYNAMIC_CONFIG_ENABLED: 'true'
-    networks:
-      - appnet
-      - internet
-        
   grafana:
     container_name: grafana
     image: grafana/grafana:master
@@ -192,8 +135,7 @@ services:
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
     depends_on:
-      prometheus:
-        condition: service_healthy
+      - prometheus
     healthcheck:
       test: wget -q --tries=1 -O- http://localhost:3000/
       interval: 3s
@@ -201,8 +143,7 @@ services:
       retries: 10
       start_period: 10s
     networks:
-      - appnet
-      - internet
+      - default
 
   prometheus:
     image: prom/prometheus
@@ -219,8 +160,7 @@ services:
       retries: 10
       start_period: 10s
     networks:
-      - appnet
-      - internet
+      - default
       
   jaeger-agent:
     container_name: 'tracing.jaeger.agent'
@@ -239,11 +179,104 @@ services:
     labels:
       NAME: "jaeger-agent"
     networks:
-      - appnet
-      - internet
+      - default
   
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    hostname: kafka-ui
+    ports:
+      - "29093:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: Brokers
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: broker-1:9092
+      KAFKA_CLUSTERS_0_METRICS_PORT: 9997
+      DYNAMIC_CONFIG_ENABLED: 'true'
+    networks:
+      - default
+  
+  zookeeper-1:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper-1
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "22181:2181"
+    networks:
+      - default
+
+  zookeeper-2:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper-2
+    environment:
+      ZOOKEEPER_SERVER_ID: 2
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "32181:2181"
+    networks:
+      - default
+  
+  broker-1:
+    image: confluentinc/cp-kafka:latest
+    container_name: broker-1
+    hostname: broker-1
+    ports:
+      - "19092:19092"
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper-1:2181,zookeeper-2:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker-1:9092,PLAINTEXT_HOST://localhost:19092
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - default
+
+  broker-2:
+    image: confluentinc/cp-kafka:latest
+    container_name: broker-2
+    hostname: broker-2
+    ports:
+      - "19093:19093"
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper-1:2181,zookeeper-2:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker-2:9093,PLAINTEXT_HOST://localhost:19093
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - default
+      
+  broker-3:
+    image: confluentinc/cp-kafka:latest
+    container_name: broker-3
+    hostname: broker-3
+    ports:
+      - "19094:19094"
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper-1:2181,zookeeper-2:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker-3:9094,PLAINTEXT_HOST://localhost:19094
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - default
+        
 networks:
-  internet:
-    driver: bridge
-  appnet:
-    driver: bridge
+  default:
+    external:
+      name: default-bridge
