@@ -22,4 +22,5 @@ public class CurrentUserService : ICurrentUserService
     //TODO:Notify для решения Kafka
     //TODO:DB на solution
     //TODO:Тесты
+    //TODO:Валидировать на статусы пользователя синхронно при создании задачи
 }

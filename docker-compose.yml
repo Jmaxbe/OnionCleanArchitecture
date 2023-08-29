@@ -36,38 +36,6 @@ services:
       - seq
     networks:
       - default
-  
-  kafkaproducer:
-    image: ${DOCKER_REGISTRY-}kafkaproducer
-    container_name: kafkaproducer
-    hostname: kafkaproducer
-    build:
-      context: .
-      dockerfile: KafkaProducer/Dockerfile
-    ports:
-      - "9900:80"
-    restart: unless-stopped
-    depends_on:
-      - keycloak
-      - seq
-    networks:
-      - default
-  
-  kafkaconsumer:
-    image: ${DOCKER_REGISTRY-}kafkaconsumer
-    container_name: kafkaconsumer
-    hostname: kafkaconsumer
-    build:
-      context: .
-      dockerfile: KafkaConsumer/Dockerfile
-    ports:
-      - "9800:80"
-    restart: unless-stopped
-    depends_on:
-      - keycloak
-      - seq
-    networks:
-      - default
     
   stafftimetableapidb:
     image: postgres:15.3
