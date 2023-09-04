@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Security.Claims;
-using Application.Common.Interfaces;
 using Jaeger.Senders;
 using Jaeger.Senders.Thrift;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using OpenTracing;
 using OpenTracing.Util;
 using Serilog;
+using StaffTimetable.Application.Common.Interfaces;
 using StaffTimeTableAPI.Filters;
 using StaffTimeTableAPI.Services;
 

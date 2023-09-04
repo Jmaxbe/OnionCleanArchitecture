@@ -1,13 +1,14 @@
-﻿using Application.Common.Models.Dto.Employees.Response;
-using Application.Employees.Commands.CreateEmployee;
-using Application.Employees.Commands.DeleteEmployee;
-using Application.Employees.Commands.UpdateEmployee;
-using Application.Employees.Queries.GetEmployees;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Extensions;
 using OpenTracing;
+using StaffTimetable.Application.Common.Models.Dto.Employees.Request;
+using StaffTimetable.Application.Common.Models.Dto.Employees.Response;
+using StaffTimetable.Application.Employees.Commands.CreateEmployee;
+using StaffTimetable.Application.Employees.Commands.DeleteEmployee;
+using StaffTimetable.Application.Employees.Commands.UpdateEmployee;
+using StaffTimetable.Application.Employees.Queries.GetEmployees;
 using StaffTimeTableAPI.Models.Roles;
 
 namespace StaffTimeTableAPI.Controllers;

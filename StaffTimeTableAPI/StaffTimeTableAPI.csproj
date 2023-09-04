@@ -47,7 +47,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\IdentityServices\IdentityServices.csproj" />
-      <ProjectReference Include="..\Persistence\Persistence.csproj" />
+      <ProjectReference Include="..\StaffTimetable.Persistence\StaffTimetable.Persistence.csproj" />
     </ItemGroup>
 
 </Project>

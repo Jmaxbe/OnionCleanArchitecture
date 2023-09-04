@@ -2,11 +2,11 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using Application.Common.Interfaces;
-using Application.Common.Models;
-using Application.Common.Models.Dto.Keycloak.Request;
 using IdentityServices.Models;
 using Microsoft.Extensions.Configuration;
+using StaffTimetable.Application.Common.Interfaces;
+using StaffTimetable.Application.Common.Models;
+using StaffTimetable.Application.Common.Models.Dto.Keycloak.Request;
 
 namespace IdentityServices.Services;
 

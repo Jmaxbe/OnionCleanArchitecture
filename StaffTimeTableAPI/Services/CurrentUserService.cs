@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Application.Common.Interfaces;
+using StaffTimetable.Application.Common.Interfaces;
 
 namespace StaffTimeTableAPI.Services;
 

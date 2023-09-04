@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Persistence;
+using StaffTimetable.Infrastructure;
 using StaffTimeTableAPI.Middleware.ErrorHandling;
 
 namespace StaffTimeTableAPI;

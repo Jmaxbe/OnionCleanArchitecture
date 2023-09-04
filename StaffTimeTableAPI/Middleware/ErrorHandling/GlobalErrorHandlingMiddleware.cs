@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Text.Json;
-using Application.Common.Exceptions;
+using StaffTimetable.Application.Common.Exceptions;
 
 namespace StaffTimeTableAPI.Middleware.ErrorHandling;
 
