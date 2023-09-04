@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace StaffTimetable.Infrastructure;
+namespace StaffTimetable.Persistence;
 
 public class ApplicationDbContextInitializer
 {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StaffTimetable.Domain.Entities;
 
-namespace StaffTimetable.Infrastructure.Configurations;
+namespace StaffTimetable.Persistence.Configurations;
 
 public class SalaryConfiguration : IEntityTypeConfiguration<Salary>
 {

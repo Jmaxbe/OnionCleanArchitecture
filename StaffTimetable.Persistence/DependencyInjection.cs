@@ -2,11 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StaffTimetable.Application.Common.Interfaces;
-using StaffTimetable.Infrastructure.Interceptors;
-using StaffTimetable.Infrastructure.Repository;
-using StaffTimetable.Infrastructure.Services;
+using StaffTimetable.Persistence.Interceptors;
+using StaffTimetable.Persistence.Repository;
+using StaffTimetable.Persistence.Services;
 
-namespace StaffTimetable.Infrastructure;
+namespace StaffTimetable.Persistence;
 
 public static class DependencyInjection
 {

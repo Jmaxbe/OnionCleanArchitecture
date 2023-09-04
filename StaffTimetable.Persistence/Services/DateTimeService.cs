@@ -1,6 +1,6 @@
 ﻿using StaffTimetable.Application.Common.Interfaces;
 
-namespace StaffTimetable.Infrastructure.Services;
+namespace StaffTimetable.Persistence.Services;
 
 public class DateTimeService : IDateTime
 {

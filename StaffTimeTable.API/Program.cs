@@ -1,7 +1,7 @@
 using IdentityServices;
 using StaffTimeTable.API;
 using StaffTimetable.Application;
-using StaffTimetable.Infrastructure;
+using StaffTimetable.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace StaffTimetable.Infrastructure.Extensions;
+namespace StaffTimetable.Persistence.Extensions;
 
 public static class QueryableExtensions
 {

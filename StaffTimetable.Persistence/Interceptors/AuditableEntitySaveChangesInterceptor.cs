@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using StaffTimetable.Application.Common.Interfaces;
 using StaffTimetable.Domain.Common;
 
-namespace StaffTimetable.Infrastructure.Interceptors;
+namespace StaffTimetable.Persistence.Interceptors;
 
 public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {

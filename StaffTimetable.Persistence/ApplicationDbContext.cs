@@ -3,10 +3,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using StaffTimetable.Domain.Entities;
 using StaffTimetable.Domain.Entities.Dictionaries;
-using StaffTimetable.Infrastructure.Extensions;
-using StaffTimetable.Infrastructure.Interceptors;
+using StaffTimetable.Persistence.Extensions;
+using StaffTimetable.Persistence.Interceptors;
 
-namespace StaffTimetable.Infrastructure;
+namespace StaffTimetable.Persistence;
 
 public class ApplicationDbContext : DbContext
 {

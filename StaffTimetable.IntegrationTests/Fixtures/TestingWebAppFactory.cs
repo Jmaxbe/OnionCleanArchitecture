@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StaffTimeTable.API;
-using StaffTimetable.Infrastructure;
+using StaffTimetable.Persistence;
 
 namespace StaffTimetable.IntegrationTests.Fixtures;
 

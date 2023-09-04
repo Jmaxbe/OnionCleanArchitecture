@@ -9,45 +9,45 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DocumentationFile>bin\Debug\StaffTimeTableAPI.xml</DocumentationFile>
+      <DocumentationFile>bin\Debug\StaffTimeTable.API.xml</DocumentationFile>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <DocumentationFile>bin\Release\StaffTimeTableAPI.xml</DocumentationFile>
+      <DocumentationFile>bin\Release\StaffTimeTable.API.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-        <PackageReference Include="Jaeger" Version="1.0.3" />
-        <PackageReference Include="Jaeger.Core" Version="1.0.3" />
-        <PackageReference Include="Jaeger.Senders.Thrift" Version="1.0.3" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.7" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.10" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.7">
+        <PackageReference Include="FluentValidation.AspNetCore" />
+        <PackageReference Include="Jaeger" />
+        <PackageReference Include="Jaeger.Core" />
+        <PackageReference Include="Jaeger.Senders.Thrift" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
-        <PackageReference Include="OpenTracing.Contrib.NetCore" Version="0.9.0" />
-        <PackageReference Include="prometheus-net" Version="8.0.1" />
-        <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.1" />
-        <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" Version="8.0.1" />
-        <PackageReference Include="Seq.Extensions.Logging" Version="6.1.0" />
-        <PackageReference Include="Serilog" Version="3.0.1" />
-        <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
-        <PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
-        <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
-        <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
-        <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
-        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
-        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-        <PackageReference Include="Serilog.Sinks.Seq" Version="5.2.2" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+        <PackageReference Include="OpenTracing.Contrib.NetCore" />
+        <PackageReference Include="prometheus-net" />
+        <PackageReference Include="prometheus-net.AspNetCore" />
+        <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" />
+        <PackageReference Include="Seq.Extensions.Logging" />
+        <PackageReference Include="Serilog" />
+        <PackageReference Include="Serilog.AspNetCore" />
+        <PackageReference Include="Serilog.Enrichers.CorrelationId" />
+        <PackageReference Include="Serilog.Enrichers.Environment" />
+        <PackageReference Include="Serilog.Enrichers.Thread" />
+        <PackageReference Include="Serilog.Formatting.Compact" />
+        <PackageReference Include="Serilog.Sinks.Console" />
+        <PackageReference Include="Serilog.Sinks.File" />
+        <PackageReference Include="Serilog.Sinks.Seq" />
+        <PackageReference Include="Swashbuckle.AspNetCore" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\IdentityServices\IdentityServices.csproj" />
+      <ProjectReference Include="..\StaffTimetable.Application\StaffTimetable.Application.csproj" />
       <ProjectReference Include="..\StaffTimetable.Persistence\StaffTimetable.Persistence.csproj" />
     </ItemGroup>
 

@@ -1,7 +1,7 @@
 ﻿using StaffTimetable.Application.Common.Interfaces;
-using StaffTimetable.Infrastructure.Repository;
+using StaffTimetable.Persistence.Repository;
 
-namespace StaffTimetable.Infrastructure.UnitOfWork;
+namespace StaffTimetable.Persistence.UnitOfWork;
 
 public class UnitOfWork : IUnitOfWork
 {

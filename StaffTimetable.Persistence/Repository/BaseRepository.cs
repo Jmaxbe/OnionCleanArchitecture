@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StaffTimetable.Application.Common.Interfaces;
 using StaffTimetable.Domain.Common;
 
-namespace StaffTimetable.Infrastructure.Repository;
+namespace StaffTimetable.Persistence.Repository;
 
 public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
 {

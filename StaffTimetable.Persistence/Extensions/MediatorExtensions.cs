@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using StaffTimetable.Domain.Common;
 
-namespace StaffTimetable.Infrastructure.Extensions;
+namespace StaffTimetable.Persistence.Extensions;
 
 public static class MediatorExtensions
 {

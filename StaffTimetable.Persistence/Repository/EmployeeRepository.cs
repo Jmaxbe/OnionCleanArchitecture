@@ -1,7 +1,7 @@
 ﻿using StaffTimetable.Application.Common.Interfaces;
 using StaffTimetable.Domain.Entities;
 
-namespace StaffTimetable.Infrastructure.Repository;
+namespace StaffTimetable.Persistence.Repository;
 
 public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
 {
