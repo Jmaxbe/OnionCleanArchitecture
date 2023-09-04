@@ -2,7 +2,7 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace ToDoAPI.Filters;
+namespace StaffTimeTable.API.Filters;
 
 public class SecureEndpointAuthRequirementFilter : IOperationFilter
 {

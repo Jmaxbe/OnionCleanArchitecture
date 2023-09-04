@@ -1,4 +1,4 @@
-﻿namespace ToDoAPI.Models.Roles;
+﻿namespace StaffTimeTable.API.Models.Roles;
 
 public class RoleConstants
 {

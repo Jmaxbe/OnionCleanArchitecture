@@ -2,7 +2,7 @@
 using System.Text.Json;
 using StaffTimetable.Application.Common.Exceptions;
 
-namespace StaffTimeTableAPI.Middleware.ErrorHandling;
+namespace StaffTimeTable.API.Middleware.ErrorHandling;
 
 public class GlobalErrorHandlingMiddleware
 {

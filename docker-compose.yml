@@ -7,7 +7,7 @@ services:
     hostname: stafftimetableapi
     build:
       context: .
-      dockerfile: StaffTimeTableAPI/Dockerfile
+      dockerfile: StaffTimeTable.API/Dockerfile
     ports:
       - "8000:80"
     restart: unless-stopped
@@ -17,23 +17,6 @@ services:
       - seq
       - stafftimetableapidb
       - keycloak
-    networks:
-      - default
-  
-  todoapi:
-    image: ${DOCKER_REGISTRY-}todoapi
-    container_name: todoapi
-    hostname: todoapi
-    build:
-      context: .
-      dockerfile: ToDoAPI/Dockerfile
-    ports:
-      - "9000:80"
-    restart: unless-stopped
-    depends_on:
-      - stafftimetableapidb
-      - keycloak
-      - seq
     networks:
       - default
     

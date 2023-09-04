@@ -1,8 +1,7 @@
-﻿using Infrastructure.Persistence;
+﻿using StaffTimeTable.API.Middleware.ErrorHandling;
 using StaffTimetable.Infrastructure;
-using StaffTimeTableAPI.Middleware.ErrorHandling;
 
-namespace StaffTimeTableAPI;
+namespace StaffTimeTable.API;
 
 public static class MiddlewareInitializer
 {

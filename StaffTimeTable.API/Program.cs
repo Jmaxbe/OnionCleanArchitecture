@@ -1,7 +1,7 @@
 using IdentityServices;
+using StaffTimeTable.API;
 using StaffTimetable.Application;
 using StaffTimetable.Infrastructure;
-using StaffTimeTableAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +18,7 @@ app.RegisterEndpoints();
 
 app.Run();
 
-namespace StaffTimeTableAPI
+namespace StaffTimeTable.API
 {
     public partial class Program { }
 }

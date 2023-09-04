@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Jaeger.Senders;
 using Jaeger.Senders.Thrift;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,11 +9,11 @@ using Microsoft.OpenApi.Models;
 using OpenTracing;
 using OpenTracing.Util;
 using Serilog;
+using StaffTimeTable.API.Filters;
+using StaffTimeTable.API.Services;
 using StaffTimetable.Application.Common.Interfaces;
-using StaffTimeTableAPI.Filters;
-using StaffTimeTableAPI.Services;
 
-namespace StaffTimeTableAPI;
+namespace StaffTimeTable.API;
 
 public static class ServiceInitializer
 {
@@ -65,7 +64,7 @@ public static class ServiceInitializer
                 BearerFormat = "JWT"
             });
             options.OperationFilter<SecureEndpointAuthRequirementFilter>();
-            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "StaffTimeTableAPI.xml"));
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "StaffTimeTable.API.xml"));
         });
     }
 

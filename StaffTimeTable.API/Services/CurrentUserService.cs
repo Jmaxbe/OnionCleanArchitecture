@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using StaffTimetable.Application.Common.Interfaces;
 
-namespace StaffTimeTableAPI.Services;
+namespace StaffTimeTable.API.Services;
 
 public class CurrentUserService : ICurrentUserService
 {

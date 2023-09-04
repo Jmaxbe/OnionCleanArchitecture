@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Http;
+using StaffTimeTable.API;
 using StaffTimetable.IntegrationTests.Fixtures;
-using StaffTimeTableAPI;
 
 namespace StaffTimetable.IntegrationTests.FeatureTests;
 

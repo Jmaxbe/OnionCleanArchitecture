@@ -1,8 +1,7 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StaffTimeTableAPI.Controllers;
+namespace StaffTimeTable.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

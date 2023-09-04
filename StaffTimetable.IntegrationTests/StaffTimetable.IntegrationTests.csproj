@@ -24,7 +24,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\StaffTimeTableAPI\StaffTimeTableAPI.csproj" />
+      <ProjectReference Include="..\StaffTimeTable.API\StaffTimeTable.API.csproj" />
+      <ProjectReference Include="..\StaffTimetable.Persistence\StaffTimetable.Persistence.csproj" />
     </ItemGroup>
 
 </Project>
