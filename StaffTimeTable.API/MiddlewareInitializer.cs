@@ -7,7 +7,6 @@ public static class MiddlewareInitializer
 {
     public static async Task<WebApplication> ConfigureMiddleware(this WebApplication app)
     {
-        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();

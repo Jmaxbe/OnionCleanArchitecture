@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using StaffTimetable.Application.Common.Interfaces;
 using StaffTimetable.Application.Common.Models.Dto.Employees.Response;
 
@@ -18,6 +19,6 @@ public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, List<
     
     public async Task<List<GetEmployeesResponseDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
-        return _mapper.Map<List<GetEmployeesResponseDto>>(await _context.Employees.GetAllAsync(cancellationToken));
+        return _mapper.Map<List<GetEmployeesResponseDto>>(await _context.Employees.Get().ToListAsync(cancellationToken));
     }
 }

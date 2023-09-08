@@ -1,16 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace StaffTimetable.Persistence;
 
 public class ApplicationDbContextInitializer
 {
-    private readonly ILogger<ApplicationDbContextInitializer> _logger;
     private readonly ApplicationDbContext _context;
 
-    public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger, ApplicationDbContext context)
+    public ApplicationDbContextInitializer(ApplicationDbContext context)
     {
-        _logger = logger;
         _context = context;
     }
 
@@ -25,7 +23,7 @@ public class ApplicationDbContextInitializer
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while initialising the database.");
+            Log.Error("{@name} => {@ex}", nameof(ApplicationDbContextInitializer), ex);
             throw;
         }
     }
@@ -38,7 +36,7 @@ public class ApplicationDbContextInitializer
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while seeding the database.");
+            Log.Error("{@name} => {@ex}", nameof(ApplicationDbContextInitializer), ex);
             throw;
         }
     }

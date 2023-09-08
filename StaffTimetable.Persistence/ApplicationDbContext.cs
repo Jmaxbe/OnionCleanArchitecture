@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using StaffTimetable.Domain.Entities;
 using StaffTimetable.Domain.Entities.Dictionaries;
-using StaffTimetable.Persistence.Extensions;
 using StaffTimetable.Persistence.Interceptors;
 
 namespace StaffTimetable.Persistence;
@@ -45,12 +44,5 @@ public class ApplicationDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
-    }
-
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        await _mediator.DispatchDomainEventsAsync(this);
-
-        return await base.SaveChangesAsync(cancellationToken);
     }
 }

@@ -14,15 +14,13 @@ public class WorkDepartmentsConfigure : IEntityTypeConfiguration<WorkDepartments
         builder
             .HasOne(o => o.Organization)
             .WithMany(m => m.WorkDepartments)
-            .HasForeignKey(f => f.OrganizationId)
-            .HasPrincipalKey(g => g.UniqueId);
+            .HasForeignKey(f => f.OrganizationId);
         builder
             .Property(p => p.DictWorkDepartmentsId)
             .IsRequired();
         builder
             .HasOne(o => o.DictWorkDepartments)
             .WithMany(m => m.WorkDepartments)
-            .HasForeignKey(f => f.DictWorkDepartmentsId)
-            .HasPrincipalKey(g => g.UniqueId);
+            .HasForeignKey(f => f.DictWorkDepartmentsId);
     }
 }

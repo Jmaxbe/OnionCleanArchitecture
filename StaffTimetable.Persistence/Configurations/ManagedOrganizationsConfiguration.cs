@@ -15,12 +15,10 @@ public class ManagedOrganizationsConfiguration : IEntityTypeConfiguration<Manage
         builder
             .HasOne(o => o.Organization)
             .WithMany(m => m.ManagedOrganizations)
-            .HasForeignKey(f => f.OrganizationId)
-            .HasPrincipalKey(g => g.UniqueId);
+            .HasForeignKey(f => f.OrganizationId);
         builder
             .HasOne(o => o.Employee)
             .WithMany(m => m.ManagedOrganizations)
-            .HasForeignKey(f => f.EmployeeId)
-            .HasPrincipalKey(g => g.UniqueId);
+            .HasForeignKey(f => f.EmployeeId);
     }
 }

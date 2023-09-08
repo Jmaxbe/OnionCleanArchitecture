@@ -12,11 +12,11 @@ public class MappingProfile : Profile
         ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
 
         CreateMap<Employee, GetEmployeesResponseDto>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UniqueId));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
         CreateMap<Employee, UpdateEmployeeResponseDto>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UniqueId));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
         CreateMap<Employee, CreateEmployeeResponseDto>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UniqueId));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
     }
 
     private void ApplyMappingsFromAssembly(Assembly assembly)

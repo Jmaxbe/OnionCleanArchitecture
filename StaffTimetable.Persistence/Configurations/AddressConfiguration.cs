@@ -13,8 +13,7 @@ public class AddressConfiguration : IEntityTypeConfiguration<Address>
         builder
             .HasOne(o => o.Organization)
             .WithMany(m => m.Addresses)
-            .HasForeignKey(f => f.OrganizationId)
-            .HasPrincipalKey(g => g.UniqueId);
+            .HasForeignKey(f => f.OrganizationId);
         builder.Property(p => p.City)
             .HasMaxLength(256);
         builder.Property(p => p.Country)

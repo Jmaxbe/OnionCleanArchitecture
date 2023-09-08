@@ -4,7 +4,6 @@ using StaffTimetable.Application.Common.Interfaces;
 using StaffTimetable.Application.Common.Models.Dto.Employees.Response;
 using StaffTimetable.Application.Common.Models.Dto.Keycloak.Request;
 using StaffTimetable.Domain.Entities;
-using StaffTimetable.Domain.Events;
 
 namespace StaffTimetable.Application.Employees.Commands.CreateEmployee;
 
@@ -48,9 +47,6 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
         var userId = await _keyCloakApi.CreateUser(keycloakUser);
 
         employee.ExternalUserId = userId;
-        
-        await _context.Employees.AddWithDomainEventAsync(employee, new EmployeeCreatedEvent(employee),
-            cancellationToken);
 
         await _context.CompleteAsync(cancellationToken);
         

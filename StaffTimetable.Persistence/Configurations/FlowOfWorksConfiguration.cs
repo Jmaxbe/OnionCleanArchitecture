@@ -11,13 +11,11 @@ public class FlowOfWorksConfiguration : IEntityTypeConfiguration<FlowOfWorks>
         builder
             .HasOne(o => o.Employee)
             .WithMany(m => m.FlowOfWorks)
-            .HasForeignKey(f => f.EmployeeId)
-            .HasPrincipalKey(g => g.UniqueId);
+            .HasForeignKey(f => f.EmployeeId);
         builder
             .HasOne(o => o.DictWorkingDateType)
             .WithMany(m => m.FlowOfWorks)
-            .HasForeignKey(f => f.DictWorkingDateTypeId)
-            .HasPrincipalKey(g => g.UniqueId);
+            .HasForeignKey(f => f.DictWorkingDateTypeId);
         builder.Property(d => d.WorkDay)
             .IsRequired();
     }

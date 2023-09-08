@@ -13,14 +13,12 @@ public class SalaryConfiguration : IEntityTypeConfiguration<Salary>
         builder
             .HasOne(o => o.Employee)
             .WithMany(m => m.Salaries)
-            .HasForeignKey(f=>f.EmployeeId)
-            .HasPrincipalKey(g=>g.UniqueId);
+            .HasForeignKey(f=>f.EmployeeId);
         builder.Property(p => p.DictPostId)
             .IsRequired();
         builder
             .HasOne(o => o.DictPost)
             .WithMany(m => m.Salaries)
-            .HasForeignKey(f => f.DictPostId)
-            .HasPrincipalKey(g => g.UniqueId);
+            .HasForeignKey(f => f.DictPostId);
     }
 }

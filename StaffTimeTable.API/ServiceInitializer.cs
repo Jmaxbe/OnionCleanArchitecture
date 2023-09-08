@@ -1,4 +1,7 @@
 ﻿using System.Security.Claims;
+using Jaeger;
+using Jaeger.Reporters;
+using Jaeger.Samplers;
 using Jaeger.Senders;
 using Jaeger.Senders.Thrift;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,33 +20,12 @@ namespace StaffTimeTable.API;
 
 public static class ServiceInitializer
 {
-    public static IServiceCollection AddStaffTimeTableServices(this IServiceCollection services,
-        IConfiguration configuration)
+    /// <summary>
+    /// Adds the Swagger Documentation
+    /// </summary>
+    /// <param name="services"></param>
+    public static void AddSwagger(this IServiceCollection services)
     {
-        services.AddScoped<ICurrentUserService, CurrentUserService>();
-
-        services.AddHttpContextAccessor();
-
-        services.AddControllers();
-
-        AddSwagger(services);
-        
-        IdentityModelEventSource.ShowPII = true;
-        
-        AddJwt(services, configuration);
-        
-        services.AddAuthorization();
-        
-        AddLogging(services, configuration);
-
-        AddJaeger(services);
-
-        return services;
-    }
-
-    private static void AddSwagger(IServiceCollection services)
-    {
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
 
         services.AddSwaggerGen(options =>
@@ -68,7 +50,12 @@ public static class ServiceInitializer
         });
     }
 
-    private static void AddJwt(IServiceCollection services, IConfiguration configuration)
+    /// <summary>
+    /// Adds the JWT token
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    public static void AddJwt(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthentication(options =>
         {
@@ -97,7 +84,12 @@ public static class ServiceInitializer
         });
     }
 
-    private static void AddLogging(IServiceCollection services, IConfiguration configuration)
+    /// <summary>
+    /// Adds the Serilog to logging
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    public static void AddLogger(this IServiceCollection services, IConfiguration configuration)
     {
         Log.Logger = new LoggerConfiguration()
             .ReadFrom.Configuration(configuration)
@@ -109,23 +101,27 @@ public static class ServiceInitializer
         });
     }
 
-    private static void AddJaeger(IServiceCollection services)
+    /// <summary>
+    /// Adds the Jaeger Tracer
+    /// </summary>
+    /// <param name="services"></param>
+    public static void AddJaeger(this IServiceCollection services)
     {
-        services.AddSingleton<ITracer>(serviceProvider =>
+        services.AddOpenTracing();
+        
+        services.AddSingleton<ITracer>(sp =>
         {
-            ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-     
-            Jaeger.Configuration.SenderConfiguration.DefaultSenderResolver = new SenderResolver(loggerFactory).RegisterSenderFactory<ThriftSenderFactory>();
-     
-            var config = Jaeger.Configuration.FromEnv(loggerFactory);
-     
-            ITracer tracer = config.GetTracer();
-     
-            GlobalTracer.Register(tracer);
-     
+            var serviceName = sp.GetRequiredService<IWebHostEnvironment>().ApplicationName;
+            var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+            var reporter = new RemoteReporter.Builder().WithLoggerFactory(loggerFactory).WithSender(new UdpSender())
+                .Build();
+            var tracer = new Tracer.Builder(serviceName)
+                // The constant sampler reports every span.
+                .WithSampler(new ConstSampler(true))
+                // LoggingReporter prints every reported span to the logging framework.
+                .WithReporter(reporter)
+                .Build();
             return tracer;
         });
-     
-        services.AddOpenTracing();
     }
 }
