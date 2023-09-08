@@ -1,0 +1,78 @@
+<Project>
+    <PropertyGroup>
+        <!-- Enable central package management -->
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageVersion Include="MediatR" Version="12.1.1" />
+
+        <!-- Mappers -->
+        <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+
+        <!-- Validation -->
+        <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
+        <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
+
+        <!-- Tracing -->
+        <PackageVersion Include="Jaeger" Version="1.0.3" />
+        <PackageVersion Include="Jaeger.Core" Version="1.0.3" />
+        <PackageVersion Include="Jaeger.Senders.Thrift" Version="1.0.3" />
+        <PackageVersion Include="OpenTracing.Contrib.NetCore" Version="0.9.0" />
+        
+        <!-- EntityFramework -->
+        <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10" >
+            <PrivateAssets>all</PrivateAssets>
+            <UpdateAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</UpdateAssets>
+        </PackageVersion>
+
+        <!-- DbConnections -->
+        <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
+
+        <!-- Metrics -->
+        <PackageVersion Include="prometheus-net" Version="8.0.1" />
+        <PackageVersion Include="prometheus-net.AspNetCore" Version="8.0.1" />
+        <PackageVersion Include="prometheus-net.AspNetCore.HealthChecks" Version="8.0.1" />
+        
+        <!-- Logging -->
+        <PackageVersion Include="Seq.Extensions.Logging" Version="6.1.0" />
+        <PackageVersion Include="Serilog" Version="3.0.1" />
+        <PackageVersion Include="Serilog.AspNetCore" Version="7.0.0" />
+        <PackageVersion Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
+        <PackageVersion Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+        <PackageVersion Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+        <PackageVersion Include="Serilog.Formatting.Compact" Version="1.1.0" />
+        <PackageVersion Include="Serilog.Sinks.Console" Version="4.1.0" />
+        <PackageVersion Include="Serilog.Sinks.File" Version="5.0.0" />
+        <PackageVersion Include="Serilog.Sinks.Seq" Version="5.2.2" />
+
+        <!-- API Documenting -->
+        <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+
+        <!-- JWT -->
+        <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.7" />
+
+        <!-- HTTP -->
+        <PackageVersion Include="Microsoft.Extensions.Http" Version="7.0.0" />
+
+        <!-- Configuration -->
+        <PackageVersion Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+
+        <!-- Tests -->
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
+        <PackageVersion Include="xunit" Version="2.4.2" />
+        <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageVersion>
+        <PackageVersion Include="coverlet.collector" Version="3.2.0">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageVersion>
+        <PackageVersion Include="Alba" Version="7.4.1" />
+
+        <!-- Azure -->
+        <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
+    </ItemGroup>
+</Project>

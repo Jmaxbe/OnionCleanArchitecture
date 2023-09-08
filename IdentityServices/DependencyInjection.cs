@@ -1,8 +1,8 @@
 ﻿using System.Net.Http.Headers;
-using Application.Common.Interfaces;
 using IdentityServices.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StaffTimetable.Application.Common.Interfaces;
 
 namespace IdentityServices;
 

@@ -1,9 +1,9 @@
-﻿using Infrastructure.Persistence;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using StaffTimeTable.API;
+using StaffTimetable.Persistence;
 
 namespace StaffTimetable.IntegrationTests.Fixtures;
 
@@ -21,6 +21,7 @@ public class TestingWebAppFactory<TEntryPoint> : WebApplicationFactory<Program> 
             
             services.AddDbContext<ApplicationDbContext>(options =>
             {
+                //docker run --name test-db -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -p 4324:5432 postgres:15.3
                 options.UseNpgsql("User ID =postgres;Password=postgres;Server=host.docker.internal;Port=4324;Database=postgres;Integrated Security=true;Pooling=true;");
             });
             
