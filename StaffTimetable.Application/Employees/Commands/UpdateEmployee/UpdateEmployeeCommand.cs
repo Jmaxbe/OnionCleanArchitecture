@@ -5,6 +5,10 @@ namespace StaffTimetable.Application.Employees.Commands.UpdateEmployee;
 
 public record UpdateEmployeeCommand : IRequest<UpdateEmployeeResponseDto>
 {
+    // public UpdateEmployeeCommand(Guid id)
+    // {
+    //     Id = id;
+    // }
     public Guid Id { get; init; }
     public string FirstName { get; init; }
     public string LastName { get; init; }

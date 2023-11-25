@@ -1,9 +1,8 @@
-﻿using StaffTimetable.Application.Common.Mappings;
-using StaffTimetable.Application.Employees.Commands.CreateEmployee;
+﻿using StaffTimetable.Application.Employees.Commands.CreateEmployee;
 
 namespace StaffTimetable.Application.Common.Models.Dto.Employees.Request;
 
-public class CreateEmployeeRequestDto : IMapFrom<CreateEmployeeCommand>
+public class CreateEmployeeRequestDto
 {
     public string FirstName { get; init; }
     public string LastName { get; init; }

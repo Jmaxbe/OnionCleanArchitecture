@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using StaffTimetable.Application.Common.Interfaces;
+using StaffTimetable.Application.Common.Mappers;
 using StaffTimetable.Application.Common.Models.Dto.Employees.Response;
 using StaffTimetable.Application.Common.Models.Dto.Keycloak.Request;
 using StaffTimetable.Domain.Entities;
@@ -33,7 +34,7 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
             UserEmail = request.Email
         };
         
-        var keycloakUser = _mapper.Map<CreateUserDto>(request);
+        var keycloakUser = request.MapToCreateUserDto();
         keycloakUser.Credentials = new List<Credentials>()
         {
             new Credentials
@@ -44,6 +45,8 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
             }
         };
 
+        
+        
         var userId = await _keyCloakApi.CreateUser(keycloakUser);
 
         employee.ExternalUserId = userId;

@@ -1,9 +1,6 @@
-﻿using StaffTimetable.Application.Common.Mappings;
-using StaffTimetable.Domain.Entities;
+﻿namespace StaffTimetable.Application.Common.Models.Dto.Employees.Response;
 
-namespace StaffTimetable.Application.Common.Models.Dto.Employees.Response;
-
-public class UpdateEmployeeResponseDto : IMapFrom<Employee>
+public class UpdateEmployeeResponseDto
 {
     public Guid Id { get; set; }
     public string FirstName { get; set; }

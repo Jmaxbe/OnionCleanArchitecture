@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OpenTracing;
 using StaffTimeTable.API.Models.Roles;
+using StaffTimetable.Application.Common.Mappers;
 using StaffTimetable.Application.Common.Models.Dto.Employees.Request;
 using StaffTimetable.Application.Common.Models.Dto.Employees.Response;
 using StaffTimetable.Application.Employees.Commands.CreateEmployee;
@@ -11,15 +12,11 @@ using StaffTimetable.Application.Employees.Queries.GetEmployees;
 
 namespace StaffTimeTable.API.Controllers;
 
+[ApiController]
+[AllowAnonymous]
+[Route("api/[controller]")]
 public class EmployeeController : ApiControllerBase
 {
-    private readonly ITracer _tracer;
-        
-    public EmployeeController(ITracer tracer)
-    {
-        _tracer = tracer;
-    }
-    
     /// <summary>
     /// Gets all employees
     /// </summary>
@@ -47,20 +44,7 @@ public class EmployeeController : ApiControllerBase
     [ProducesDefaultResponseType]
     public async Task<ActionResult<CreateEmployeeResponseDto>> Create(CreateEmployeeRequestDto request, CancellationToken cancellationToken)
     {
-        return await Mediator.Send(new CreateEmployeeCommand
-        {
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            MiddleName = request.MiddleName,
-            UserPhone = request.Phone,
-            Email = request.Email,
-            UserName = request.UserName,
-            Password = request.Password,
-            IsMale = request.IsMale,
-            HireDate = request.HireDate,
-            BirthDate = request.BirthDate,
-            UserRoles = request.UserRoles
-        }, cancellationToken);
+        return await Mediator.Send(request.MapToCreateEmployeeCommand(), cancellationToken);
     }
     
     /// <summary>
@@ -75,22 +59,8 @@ public class EmployeeController : ApiControllerBase
     [ProducesResponseType(typeof(UpdateEmployeeResponseDto), 200)]
     public async Task<ActionResult<UpdateEmployeeResponseDto>> Update(Guid id, UpdateEmployeeRequestDto data, CancellationToken cancellationToken)
     {
-        if (!id.Equals(data.Id))
-        {
-            return BadRequest("Ids are not equal");
-        }
-        
-        return await Mediator.Send(new UpdateEmployeeCommand
-        {
-            Id = data.Id,
-            FirstName = data.FirstName,
-            LastName = data.LastName,
-            MiddleName = data.MiddleName,
-            UserPhone = data.UserPhone,
-            IsMale = data.IsMale,
-            HireDate = data.HireDate,
-            BirthDate = data.BirthDate
-        }, cancellationToken);
+        var command = data.MapToUpdateEmployeeCommand();
+        return await Mediator.Send(command, cancellationToken);
     }
     
     /// <summary>
